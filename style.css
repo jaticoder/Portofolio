@@ -115,27 +115,61 @@ a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .lead { color: var(--muted); max-width: 56ch; margin-bottom: 20px; }
 .socials { display: flex; flex-wrap: wrap; gap: 12px; }
 
-/* ===== EDUCATION dan EXPERIENCE ===== */
+/* ===== ABOUT: kartu foto + teks ===== */
 .about { display: grid; grid-template-columns: 1fr 1fr; gap: 6vh 5vw; align-items: start; }
-.about-intro { grid-column: 1 / -1; }
-.path h3 { font-size: 1.3rem; margin-bottom: 22px; }
-.path ol { list-style: none; padding: 0; counter-reset: step; position: relative; display: grid; gap: 26px; }
-.path ol::before { content: ""; position: absolute; top: 16px; bottom: 16px; left: 15px; width: 2px; background: linear-gradient(var(--cyan), var(--blue), transparent); }
-.path li { position: relative; padding-left: 52px; counter-increment: step; }
-.path li::before {                      /* lingkaran bernomor */
-  content: counter(step); position: absolute; left: 0; top: 0;
-  width: 32px; height: 32px; display: grid; place-items: center;
-  border-radius: 50%; background: var(--bg); border: 2px solid var(--cyan);
-  font-size: .85rem; font-weight: 600; transition: transform .25s, box-shadow .25s, background .25s;
-}
-.path li:hover::before { transform: scale(1.15); box-shadow: 0 0 18px var(--cyan); background: var(--cyan); color: var(--bg); }
+.about-card { grid-column: 1 / -1; display: grid; grid-template-columns: 300px 1fr; gap: 36px; padding: 28px; align-items: center; }
+.about-photo { border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 5; transition: transform .15s ease-out; will-change: transform; box-shadow: 0 0 0 1px var(--glass-line), 0 20px 50px rgba(59, 108, 255, .25); }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; display: block; transition: transform .6s; }
+.about-photo:hover img { transform: scale(1.06); }
+.eyebrow { color: var(--cyan); letter-spacing: .22em; font-size: .75rem; font-weight: 600; margin-bottom: 10px; }
+.about-text h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.15; margin-bottom: 14px; }
+.grad { background: linear-gradient(90deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stats { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.stats li { padding: 10px 18px; border: 1px solid var(--glass-line); border-radius: 14px; background: var(--glass); transition: transform .25s, border-color .25s; }
+.stats li:hover { transform: translateY(-4px); border-color: var(--cyan); }
+.stats b { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: 1.3rem; }
+.stats span { color: var(--muted); font-size: .8rem; }
+.stats li.has-logo { display: flex; align-items: center; gap: 12px; padding: 8px 18px 8px 8px; }
+.logo-box { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 8px; border-radius: 12px; background: #fff; transition: transform .3s; }
+.logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.stats li:hover .logo-box { transform: rotate(-8deg) scale(1.1); }
+.stack-title { color: var(--muted); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+.stack-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.stack-list li { display: flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; border: 1px solid var(--glass-line); border-radius: 999px; background: var(--glass); font-size: .9rem; transition: transform .25s, border-color .25s, box-shadow .25s; }
+.stack-list li:hover { transform: translateY(-4px); border-color: var(--cyan); box-shadow: 0 8px 22px rgba(34, 199, 230, .22); }
+.stack-list .logo-box { width: 32px; height: 32px; padding: 6px; border-radius: 50%; }
+.stack-list li:hover .logo-box { transform: rotate(-12deg) scale(1.15); }
+.now { list-style: none; padding: 0; display: grid; gap: 6px; color: var(--muted); font-size: .92rem; }
+.now i { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--cyan); animation: pulse 2s infinite; }
+
+/* ===== EDUCATION dan EXPERIENCE: timeline dengan ikon ===== */
+.path h3 { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; margin-bottom: 24px; }
+.path h3 svg { width: 24px; height: 24px; fill: none; stroke: var(--cyan); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
+.path:hover h3 svg { transform: rotate(-10deg) scale(1.15); }
+.path ol { list-style: none; padding: 0; position: relative; display: grid; gap: 26px; }
+.path ol::before { content: ""; position: absolute; top: 8px; bottom: 8px; left: 6px; width: 2px; background: linear-gradient(var(--cyan), var(--blue), transparent); }
+.path li { position: relative; padding-left: 34px; }
+.path li::before { content: ""; position: absolute; left: 0; top: 5px; width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); transition: background .25s, border-color .25s, box-shadow .25s; }
+.path li:first-child::before { background: var(--cyan); border-color: var(--cyan); animation: pulse 2s infinite; }
+.path li > * { transition: transform .25s; }
+.path li:hover > * { transform: translateX(6px); }
+.path li:hover::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
 .path .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-.path .row b { font-size: .95rem; }
+.path .row b { font-size: 1rem; }
 .path time { font-size: .8rem; color: var(--muted); white-space: nowrap; }
-.path .title { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.15rem; margin-top: 4px; }
-.path .sub { color: var(--muted); font-size: .9rem; }
+.path .sub { color: var(--muted); font-size: .9rem; margin-top: 2px; }
 .tags { display: flex; gap: 6px; margin-top: 8px; }
-.tags span { font-size: .75rem; padding: 2px 10px; border-radius: 999px; background: rgba(59, 108, 255, .18); border: 1px solid rgba(59, 108, 255, .4); }
+.tags span { font-size: .75rem; padding: 2px 10px; border-radius: 999px; background: rgba(59, 108, 255, .18); border: 1px solid rgba(59, 108, 255, .4); transition: transform .2s, background .2s; }
+.tags span:hover { transform: translateY(-2px); background: rgba(59, 108, 255, .35); }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 199, 230, .55); } 100% { box-shadow: 0 0 0 10px rgba(34, 199, 230, 0); } }
+
+/* ===== MICRO INTERACTION ===== */
+.progress { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 30; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+.nav nav a.active { color: var(--text); background-size: 100% 2px; }
+.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s, transform .7s; }
+.js .reveal.in { opacity: 1; transform: none; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, .35); transform: scale(0); animation: ripple .6s linear; pointer-events: none; }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
 /* ===== CARD PROJECT (setara, tidak ada yang jadi bintang) ===== */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
@@ -171,6 +205,8 @@ a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
   .hero-right p { margin-inline: auto; }
   .chips, .social-icons { justify-content: center; }
   .about { grid-template-columns: 1fr; }
+  .about-card { grid-template-columns: 1fr; padding: 20px; }
+  .about-photo { max-width: 260px; margin: 0 auto; }
   .nav nav a { margin-left: 14px; }
 }
 

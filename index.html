@@ -14,6 +14,7 @@
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="logo" href="#home">PORTOFOLIO</a>
@@ -51,43 +52,62 @@
 
     <!-- ABOUT -->
     <section class="section about" id="about">
-      <div class="about-intro">
-        <h2>Tentang aku</h2>
-        <p class="lead">Halo! Aku Wisnu, mahasiswa Teknik Informatika di Universitas Tanjungpura. Aku termasuk orang yang suka mencoba hal baru dan punya rasa penasaran yang cukup besar, terutama soal bagaimana sebuah game dibuat. Dari situ aku mulai tertarik dengan game development dan sekarang sedang banyak bereksperimen dengan Unity dan C#.</p>
+      <div class="about-card glass reveal">
+        <div class="about-photo" id="tilt">
+          <img src="assets/about.jpg" alt="Foto Jati Wisnu di depan gedung Informatika" loading="lazy">
+        </div>
+        <div class="about-text">
+          <p class="eyebrow">TENTANG AKU</p>
+          <h2>Penasaran soal game, lalu <span class="grad">membuatnya sendiri.</span></h2>
+          <p class="lead">Halo! Aku Wisnu, mahasiswa Teknik Informatika di Universitas Tanjungpura. Aku suka mencoba hal baru dan punya rasa penasaran yang besar, terutama soal bagaimana sebuah game dibuat. Dari situ aku mulai tertarik dengan game development dan sekarang sedang banyak bereksperimen dengan Unity dan C#. Selain game, aku juga membuat aplikasi mobile dengan Android Studio.</p>
+          <ul class="stats">
+            <li><b>1</b><span>Game dibuat</span></li>
+            <li class="has-logo" title="Unity"><span class="logo-box"><img src="assets/tech/unity.png" alt="Unity"></span><span>Engine utama</span></li>
+            <li class="has-logo" title="C#"><span class="logo-box"><img src="assets/tech/csharp.png" alt="C#"></span><span>Bahasa utama</span></li>
+          </ul>
+          <p class="stack-title">Bahasa dan tools lain</p>
+          <ul class="stack-list">
+            <li><span class="logo-box"><img src="assets/tech/androidstudio.png" alt=""></span>Android Studio</li>
+            <li><span class="logo-box"><img src="assets/tech/kotlin.png" alt=""></span>Kotlin</li>
+            <li><span class="logo-box"><img src="assets/tech/cpp.png" alt=""></span>C++</li>
+            <li><span class="logo-box"><img src="assets/tech/javascript.png" alt=""></span>JavaScript</li>
+            <li><span class="logo-box"><img src="assets/tech/nodejs.png" alt=""></span>Node.js</li>
+          </ul>
+          <ul class="now">
+            <li><i></i> Membuat: Ojol Rush</li>
+            <li><i></i> Belajar: game development</li>
+            <li><i></i> Mencoba: aplikasi mobile dengan Android Studio</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- EDUCATION: GANTI semua tulisan di bawah dengan data aslimu.
-           Mau tambah item? Salin satu blok <li> ... </li>, tempel di bawahnya. -->
-      <div class="path">
-        <h3>Education</h3>
+      <div class="path reveal">
+        <h3>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+          Education
+        </h3>
         <ol>
           <li>
             <div class="row"><b>Universitas Tanjungpura</b><time>2026 - Sekarang</time></div>
-            <p class="title">Teknik Informatika</p>
-            <p class="sub">Mahasiswa semester 1</p>
+            <p class="sub">Teknik Informatika, semester 1</p>
           </li>
           <li>
             <div class="row"><b>SMAN 3 Sanggau</b><time>2021 - 2024</time></div>
-            <p class="title">IPS</p>
-            <p class="sub">Keterangan singkat</p>
+            <p class="sub">Jurusan IPS</p>
           </li>
         </ol>
       </div>
 
-      <!-- EXPERIENCE: GANTI dengan pengalamanmu (project, lomba, organisasi, magang). -->
-      <div class="path">
-        <h3>Experience</h3>
+      <div class="path reveal">
+        <h3>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+          Experience
+        </h3>
         <ol>
           <li>
             <div class="row"><b>Solo Game Developer</b><time>2026 - Sekarang</time></div>
-            <p class="title">Ojol Rush</p>
-            <p class="sub">Game 2D top-down dengan Unity dan C#</p>
+            <p class="sub">Ojol Rush: game 2D top-down dengan Unity dan C#</p>
             <p class="tags"><span>Unity</span><span>C#</span></p>
-          </li>
-          <li>
-            <div class="row"><b>Nama pengalaman</b><time>20XX</time></div>
-            <p class="title">Peran kamu</p>
-            <p class="sub">Keterangan singkat</p>
           </li>
         </ol>
       </div>
@@ -105,9 +125,9 @@
       <p class="lead">Mau ngobrol atau kolaborasi? Cari aku di sini.</p>
       <div class="socials">
         <!-- Ganti tanda # dengan link aslimu -->
-        <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">itch.io</a>
-        <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn btn-ghost" href="https://jatiw-studio.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a class="btn btn-ghost" href="https://github.com/jaticoder" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/jatiwisnuu" target="_blank" rel="noopener">Instagram</a>
         <a class="btn btn-ghost" href="mailto:emailkamu@gmail.com">Email</a>
       </div>
     </section>
