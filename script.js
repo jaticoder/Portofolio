@@ -1,23 +1,16 @@
 // ===== DAFTAR PROJECT =====
-// Mau tambah game baru? Salin satu blok { ... }, tempel di bawahnya, lalu ganti isinya.
-// Jangan lupa koma (,) di antara blok.
+// Mau tambah game? Salin satu blok { ... }, tempel di bawahnya, jangan lupa koma.
 const projects = [
   {
     title: "Ojol Rush",
-    description: "Game 2D top-down endless dodger buatan sendiri: hindari rintangan selama mungkin.",
+    description: "Game 2D top-down endless dodger: hindari rintangan selama mungkin.",
     status: "Sedang dikembangkan",
-    image: "assets/ojol-rush.png",   // taruh gambar di folder assets
-    itch: "",                        // isi link itch.io kalau sudah rilis
-    github: ""                       // isi link repo GitHub-mu
+    image: "assets/ojol-rush.png",
+    itch: "",     // isi link itch.io kalau sudah rilis
+    github: ""    // isi link repo GitHub
   },
-  {
-    title: "Game berikutnya",
-    description: "Slot ini disiapkan untuk project selanjutnya.",
-    status: "Segera hadir",
-    image: "",
-    itch: "",
-    github: ""
-  }
+  { title: "Project berikutnya", description: "Slot untuk game selanjutnya.", status: "Segera hadir", image: "", itch: "", github: "" },
+  { title: "Eksperimen", description: "Prototype kecil dan latihan mekanik game.", status: "Segera hadir", image: "", itch: "", github: "" }
 ];
 
 // ===== MEMBUAT CARD =====
@@ -25,11 +18,10 @@ const grid = document.getElementById("project-grid");
 
 projects.forEach((p) => {
   const card = document.createElement("article");
-  card.className = "card";
+  card.className = "card glass";
 
-  // Tombol hanya muncul kalau linknya diisi
   let links = "";
-  if (p.itch) links += `<a class="btn" href="${p.itch}" target="_blank" rel="noopener">Main di itch.io</a>`;
+  if (p.itch) links += `<a class="btn btn-solid" href="${p.itch}" target="_blank" rel="noopener">Main di itch.io</a>`;
   if (p.github) links += `<a class="btn btn-ghost" href="${p.github}" target="_blank" rel="noopener">Kode</a>`;
 
   card.innerHTML = `
@@ -42,20 +34,22 @@ projects.forEach((p) => {
     </div>`;
   grid.appendChild(card);
 
-  // Skeleton shimmer: berhenti saat gambar selesai dimuat
+  // Cahaya biru mengikuti kursor di dalam card
+  card.addEventListener("mousemove", (e) => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", e.clientX - r.left + "px");
+    card.style.setProperty("--my", e.clientY - r.top + "px");
+  });
+
+  // Skeleton shimmer berhenti saat gambar selesai dimuat
   const thumb = card.querySelector(".thumb");
   const finish = () => thumb.classList.remove("skeleton");
 
-  if (!p.image) {
-    setTimeout(finish, 900);  // tanpa gambar: shimmer sebentar, lalu tampilkan nama
-    return;
-  }
+  if (!p.image) { setTimeout(finish, 900); return; }
+
   const img = new Image();
   img.alt = `Cuplikan ${p.title}`;
-  img.onload = () => {
-    // jeda 900ms hanya supaya efek shimmer sempat terlihat saat testing; boleh dihapus
-    setTimeout(() => { thumb.innerHTML = ""; thumb.appendChild(img); finish(); }, 900);
-  };
-  img.onerror = finish;       // gambar belum ada: tampilkan nama project saja
+  img.onload = () => setTimeout(() => { thumb.innerHTML = ""; thumb.appendChild(img); finish(); }, 900); // jeda boleh dihapus
+  img.onerror = finish;
   img.src = p.image;
 });
