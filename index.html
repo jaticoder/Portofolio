@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jati Wisnu | Game Developer</title>
+  <meta name="description" content="Portofolio Jati Wisnu, mahasiswa Teknik Informatika dan game developer.">
+  <!-- Preview saat link dibagikan di WhatsApp/LinkedIn -->
+  <meta property="og:title" content="Jati Wisnu | Game Developer">
+  <meta property="og:description" content="Game-game yang aku buat, dan cerita di baliknya.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav">
+    <a class="logo" href="#home">Jati Wisnu</a>
+    <nav>
+      <a href="#about">Tentang</a>
+      <a href="#projects">Project</a>
+      <a href="#contact">Kontak</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <p class="hero-hi">Halo, aku</p>
+      <h1 class="hero-name">Jati<br>Wisnu</h1>
+      <p class="hero-role">Game developer, mahasiswa Teknik Informatika.</p>
+      <p class="hero-text">Aku membuat game kecil dari nol: ide, kode, sampai bisa dimainkan.</p>
+      <a class="btn" href="#projects">Lihat project</a>
+      <!-- Ganti dengan sprite/gambarmu di folder assets (lihat panduan). Kalau file belum ada, gambar otomatis disembunyikan. -->
+      <img class="hero-art" src="assets/hero.png" alt="" onerror="this.style.display='none'">
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <h2>Tentang aku</h2>
+      <p class="lead">Aku mahasiswa Teknik Informatika semester 1 yang suka bikin game. Sekarang aku belajar membuat game 2D dengan Unity dan C#, dan semua progresnya kusimpan di GitHub.</p>
+      <ul class="chips">
+        <li>Unity</li>
+        <li>C#</li>
+        <li>Game design</li>
+        <li>Git dan GitHub</li>
+      </ul>
+    </section>
+
+    <!-- PROJECTS: kartunya dibuat otomatis oleh script.js -->
+    <section class="section" id="projects">
+      <h2>Project</h2>
+      <div class="grid" id="project-grid"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <h2>Kontak</h2>
+      <p class="lead">Mau ngobrol atau main game buatanku? Cari aku di sini.</p>
+      <div class="socials">
+        <!-- Ganti tanda # dengan link aslimu -->
+        <a class="btn btn-ghost" href="https://jatiw-studio.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a class="btn btn-ghost" href="https://github.com/jaticoder" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/jatiwisnuu?xtok=cjZzdmtuZ3VtNGtm" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn btn-ghost" href="mailto:jatiwisnukj@gmail.com">Email</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Dibuat oleh Jati Wisnu</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

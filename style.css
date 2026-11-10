@@ -1,0 +1,138 @@
+/* ===== 1. WARNA (ubah di sini, semua halaman ikut berubah) ===== */
+:root {
+  --bg: #050a1c;        /* biru malam */
+  --surface: #0c1630;   /* latar kartu */
+  --line: #1d2d58;      /* garis tipis */
+  --text: #e6ecff;
+  --muted: #8d9cc7;
+  --accent: #4d8dff;    /* biru terang untuk tombol/hover */
+  --accent-soft: #1a3a85;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Figtree", system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, .logo { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+
+/* ===== 2. NAVIGASI ===== */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 6vw;
+  background: rgba(5, 10, 28, .85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.logo { font-weight: 800; color: var(--text); text-decoration: none; }
+.nav nav a {
+  color: var(--muted); text-decoration: none; margin-left: 24px;
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 0 2px no-repeat;
+  padding-bottom: 4px;
+  transition: color .2s, background-size .3s;
+}
+.nav nav a:hover { color: var(--text); background-size: 100% 2px; }  /* garis muncul saat hover */
+
+/* ===== 3. HERO ===== */
+.hero {
+  position: relative; overflow: hidden;
+  min-height: 88vh; padding: 10vh 6vw;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  background: radial-gradient(60% 60% at 85% 30%, var(--accent-soft), transparent 70%);
+}
+.hero-hi { color: var(--accent); font-size: 1.2rem; }
+.hero-name {
+  font-size: clamp(4rem, 17vw, 12rem);
+  font-weight: 800; line-height: .88; letter-spacing: -.03em;
+  margin: 8px 0 24px;
+}
+.hero-role { font-size: 1.25rem; font-weight: 600; }
+.hero-text { color: var(--muted); max-width: 46ch; margin: 8px 0 28px; }
+.hero-art {
+  position: absolute; right: 4vw; bottom: 0;
+  height: min(70vh, 520px); max-width: 45vw; object-fit: contain;
+  image-rendering: pixelated; /* biar sprite pixel art tetap tajam */
+}
+
+/* Satu animasi masuk saat halaman dibuka */
+.hero > * { animation: rise .7s both; }
+.hero > *:nth-child(2) { animation-delay: .1s; }
+.hero > *:nth-child(3) { animation-delay: .2s; }
+.hero > *:nth-child(4) { animation-delay: .3s; }
+.hero > *:nth-child(5) { animation-delay: .4s; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+
+/* ===== 4. TOMBOL ===== */
+.btn {
+  position: relative; overflow: hidden; display: inline-block;
+  padding: 12px 26px; border-radius: 999px;
+  background: var(--accent); color: #fff; font-weight: 600; text-decoration: none;
+  border: 1px solid var(--accent);
+  transition: transform .15s, box-shadow .25s;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(77, 141, 255, .35); }
+.btn:active { transform: translateY(0) scale(.96); }  /* terasa "ditekan" */
+.btn:focus-visible, a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
+.btn-ghost::before {            /* warna biru menyapu dari kiri saat hover */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--accent); transform: translateX(-101%); transition: transform .3s;
+}
+.btn-ghost { z-index: 0; }
+.btn-ghost:hover::before { transform: translateX(0); }
+.btn-ghost:hover { border-color: var(--accent); box-shadow: none; }
+
+/* ===== 5. SECTION UMUM ===== */
+.section { padding: 12vh 6vw 4vh; max-width: 1100px; margin: 0 auto; }
+.section h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px; }
+.lead { color: var(--muted); max-width: 60ch; margin-bottom: 20px; }
+.chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.chips li { padding: 6px 16px; border: 1px solid var(--line); border-radius: 999px; transition: border-color .2s, transform .2s; }
+.chips li:hover { border-color: var(--accent); transform: translateY(-2px); }
+.socials { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ===== 6. CARD PROJECT ===== */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 18px 40px rgba(0, 0, 0, .5), 0 0 0 1px var(--accent); }
+.thumb { aspect-ratio: 16 / 9; background: var(--line); overflow: hidden; display: grid; place-items: center; color: var(--muted); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.card:hover .thumb img { transform: scale(1.07); }   /* gambar zoom pelan saat hover */
+.card-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.card-body h3 { font-family: "Bricolage Grotesque", sans-serif; font-size: 1.25rem; }
+.card-body p { color: var(--muted); font-size: .95rem; flex: 1; }
+.status { font-size: .85rem; color: var(--accent); }
+.card-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.card-links .btn { padding: 8px 18px; font-size: .9rem; }
+
+/* ===== 7. SKELETON SHIMMER (tampil saat gambar belum selesai dimuat) ===== */
+.skeleton {
+  background: linear-gradient(100deg, var(--line) 30%, #2b407a 50%, var(--line) 70%);
+  background-size: 300% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+.skeleton > * { visibility: hidden; }
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+.footer { text-align: center; color: var(--muted); padding: 10vh 6vw 6vh; }
+
+/* ===== 8. HP / LAYAR KECIL ===== */
+@media (max-width: 700px) {
+  .hero-art { opacity: .35; max-width: 80vw; }
+  .nav nav a { margin-left: 14px; }
+}
+
+/* Hormati pengguna yang mematikan animasi di perangkatnya */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
