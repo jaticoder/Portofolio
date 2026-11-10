@@ -9,8 +9,8 @@ const projects = [
     itch: "",     // isi link itch.io kalau sudah rilis
     github: ""    // isi link repo GitHub
   },
-  { title: "Project berikutnya", description: "Slot untuk game selanjutnya.", status: "Segera hadir", image: "", itch: "", github: "" },
-  { title: "Eksperimen", description: "Prototype kecil dan latihan mekanik game.", status: "Segera hadir", image: "", itch: "", github: "" }
+  { title: "Coming Soon", description: "Project Lainnya.", status: "Segera hadir", image: "", itch: "", github: "" },
+  { title: "Coming Soon", description: "Project Lainnya.", status: "Segera hadir", image: "", itch: "", github: "" }
 ];
 
 // ===== MEMBUAT CARD =====
