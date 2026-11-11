@@ -9,7 +9,7 @@
   <meta property="og:description" content="Aku Jati, dan ini game-game yang kubuat.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Figtree:wght@400;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -54,7 +54,7 @@
     <section class="section about" id="about">
       <div class="about-card glass reveal">
         <div class="about-left">
-          <p class="eyebrow">Tentang Aku</p>
+          <p class="eyebrow">About Me</p>
           <!-- Mau tambah foto? Salin satu baris <figure ...> di dalam tumpukan, ganti nama filenya. -->
           <div class="stack-group">
             <div class="photo-stack" tabindex="0" aria-label="Foto Jati Wisnu, tumpukan atas. Berganti otomatis. Klik, geser, atau tekan panah untuk berganti sendiri.">
@@ -81,11 +81,13 @@
         </div>
         <div class="about-text">
           <h2>Penasaran soal game, lalu <span class="grad">membuatnya sendiri.</span></h2>
-          <p class="lead">Halo! Aku Wisnu, mahasiswa Teknik Informatika di Universitas Tanjungpura. Aku suka mencoba hal baru dan punya rasa penasaran yang besar, terutama soal bagaimana sebuah game dibuat. Dari situ aku mulai tertarik dengan game development dan sekarang sedang banyak bereksperimen dengan Unity dan C#. Selain game, aku juga membuat aplikasi mobile dengan Android Studio.</p>
+          <p class="lead">Halo! Aku Wisnu, mahasiswa Teknik Informatika di Universitas Tanjungpura. Sejak kecil aku sudah tertarik dengan dunia teknologi. Rasa penasaranku bukan cuma soal cara memakainya, tapi juga bagaimana semuanya bisa bekerja.</p>
+          <p class="lead">Dari rasa penasaran itu, hobi bermain game pelan-pelan berubah jadi keinginan untuk membuatnya sendiri. Sekarang aku banyak belajar dan bereksperimen dengan Unity dan C#, dan Ojol Rush adalah game yang sedang kukerjakan sendiri. Selain game, aku juga membuat aplikasi mobile dengan Android Studio.</p>
+          <p class="lead">Aku masih di awal perjalanan, dan justru itu yang bikin seru: setiap hari ada hal baru untuk dicoba. Targetku sederhana, terus belajar dan membuat game yang benar-benar bisa dimainkan orang lain.</p>
           <ul class="stats">
-            <li><b>1</b><span>Game dibuat</span></li>
-            <li class="has-logo" title="Unity"><span class="logo-box"><img src="assets/tech/unity.png" alt="Unity"></span><span>Engine utama</span></li>
-            <li class="has-logo" title="C#"><span class="logo-box"><img src="assets/tech/csharp.png" alt="C#"></span><span>Bahasa utama</span></li>
+            <li class="stat-num"><b>1</b><span>Game dibuat</span></li>
+            <li class="has-logo" title="Unity"><span class="logo-box"><img src="assets/tech/unity.png" alt="Unity"></span><div class="stat-text"><span>Engine utama</span><b>Unity Engine</b></div></li>
+            <li class="has-logo" title="C#"><span class="logo-box"><img src="assets/tech/csharp.png" alt="C#"></span><div class="stat-text"><span>Bahasa utama</span><b>C#</b></div></li>
           </ul>
           <p class="stack-title">Tools dan Bahasa</p>
           <ul class="stack-list">
@@ -147,11 +149,36 @@
       <div class="contact-card glass reveal">
         <p class="eyebrow">Kontak</p>
         <h2>Ayo bikin sesuatu <span class="grad">bareng.</span></h2>
-        <p class="lead">Punya ide game, mau kolaborasi, atau sekadar ingin ngobrol soal game dev? Kirim email saja.</p>
-        <p class="mail-text">hello.jatiwisnu@gmail.com</p>
+        <p class="lead">Punya ide game, mau kolaborasi, atau sekadar ingin ngobrol soal game dev? Tulis pesanmu di bawah, langsung masuk ke inbox-ku.</p>
         <p class="status-badge"><i></i> Terbuka untuk kolaborasi</p>
-        <div class="contact-actions">
-          <a class="btn btn-solid" id="mail-link" href="mailto:hello.jatiwisnu@gmail.com">Kirim email</a>
+
+        <div class="chat">
+          <div class="chat-head">
+            <span class="chat-avatar"><img src="assets/about.jpg" alt="" onerror="this.style.display='none'"></span>
+            <div><b>Jati Wisnu</b><small>Game Developer</small></div>
+          </div>
+          <div class="chat-body" id="chat-body" aria-live="polite">
+            <div class="bubble them">Halo! Ada ide, pertanyaan, atau tawaran kolaborasi? Tulis pesanmu di sini, nanti kubalas lewat email.</div>
+          </div>
+          <!-- Pesan dikirim lewat FormSubmit ke emailmu (lihat petunjuk aktivasi dari Claude) -->
+          <form class="chat-form" id="contact-form" action="https://formsubmit.co/ajax/hello.jatiwisnu@gmail.com" method="POST">
+            <div class="chat-fields">
+              <input type="text" name="name" placeholder="Nama kamu" required maxlength="60" autocomplete="name">
+              <input type="email" name="email" placeholder="Email kamu (untuk balasan)" required maxlength="100" autocomplete="email">
+            </div>
+            <div class="chat-compose">
+              <textarea name="message" rows="3" placeholder="Tulis pesanmu..." required maxlength="1500"></textarea>
+              <button class="btn btn-solid" type="submit">Kirim</button>
+            </div>
+            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="_subject" value="Pesan baru dari portofolio">
+            <input type="hidden" name="_template" value="table">
+          </form>
+        </div>
+
+        <div class="contact-alt">
+          <span>Atau kirim langsung ke</span>
+          <a class="mail-text" id="mail-link" href="mailto:hello.jatiwisnu@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>hello.jatiwisnu@gmail.com</a>
           <button class="btn btn-ghost" id="copy-mail" type="button">Salin email</button>
         </div>
       </div>

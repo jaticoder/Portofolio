@@ -103,7 +103,8 @@ document.querySelectorAll(".stack-group").forEach((group, n) => {
     order.forEach((c, i) => {
       c.style.setProperty("--i", i);
       c.classList.toggle("top", i === 0);
-      c.classList.toggle("far", i > 1);    // hanya 2 kartu teratas yang terlihat
+      c.style.setProperty("--v", Math.min(i, 1));   // kartu ke-2 dan seterusnya menumpuk persis di belakang kartu ke-2
+      c.style.transition = "";
       c.style.transform = "";
     });
     dots.forEach((d, k) => d.classList.toggle("on", cards[k] === order[0]));
@@ -114,9 +115,9 @@ document.querySelectorAll(".stack-group").forEach((group, n) => {
     if (busy || order.length < 2) return;
     busy = true;
     const top = order[0];
-    top.style.transform = `translateX(${dir * 130}%) rotate(${dir * 18}deg)`;
-    top.style.opacity = 0;
-    setTimeout(() => { order.push(order.shift()); top.style.opacity = ""; layout(); busy = false; }, 350);
+    top.style.transition = "transform .28s ease-out";
+    top.style.transform = `translateX(${dir * 62}%) rotate(${dir * 9}deg)`;   // keluar sedikit ke samping
+    setTimeout(() => { order.push(order.shift()); layout(); busy = false; }, 280);   // lalu menyelip ke belakang tumpukan
   };
   const back = () => { if (busy || order.length < 2) return; order.unshift(order.pop()); layout(); };
 
@@ -171,5 +172,54 @@ if (mailLink && copyBtn) {
     try { await navigator.clipboard.writeText(email); copyBtn.textContent = "Tersalin ✓"; }
     catch { copyBtn.textContent = email; }
     setTimeout(() => { copyBtn.textContent = "Salin email"; }, 2000);
+  });
+}
+
+// Chatbox kontak: kirim pesan ke email lewat FormSubmit, lalu tampilkan konfirmasi
+const form = document.getElementById("contact-form");
+if (form) {
+  const chat = document.getElementById("chat-body");
+  const bubble = (cls, text) => {
+    const b = document.createElement("div");
+    b.className = "bubble " + cls;
+    b.textContent = text;
+    chat.appendChild(b);
+    chat.scrollTop = chat.scrollHeight;
+    return b;
+  };
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (data.get("_honey")) return;                 // jebakan untuk bot
+    const btn = form.querySelector("button[type=submit]");
+    const name = String(data.get("name")).trim();
+    btn.disabled = true; btn.textContent = "Mengirim...";
+    bubble("me", String(data.get("message")).trim());
+    const status = document.createElement("div");      // keterangan kecil di bawah pesan, seperti centang di aplikasi chat
+    status.className = "msg-status";
+    status.textContent = "Mengirim...";
+    chat.appendChild(status);
+    chat.scrollTop = chat.scrollHeight;
+    try {
+      const [res] = await Promise.all([
+        fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: data }),
+        new Promise((r) => setTimeout(r, 700))
+      ]);
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || json.success === "false" || json.success === false) throw new Error("gagal");
+      status.className = "msg-status ok";
+      status.textContent = "✓ Pesan terkirim";
+      form.reset();
+      const typing = bubble("them typing", "");         // lalu balasan terpisah dari kamu
+      await new Promise((r) => setTimeout(r, 1000));
+      typing.className = "bubble them";
+      typing.textContent = `Terima kasih, ${name}! Pesanmu sudah masuk ke inbox-ku, nanti kubalas lewat email ya.`;
+    } catch {
+      status.className = "msg-status error";
+      status.textContent = "Belum terkirim";
+      bubble("them error", "Pesanmu belum terkirim. Coba lagi sebentar lagi, atau kirim langsung lewat email di bawah.");
+    }
+    chat.scrollTop = chat.scrollHeight;
+    btn.disabled = false; btn.textContent = "Kirim";
   });
 }
