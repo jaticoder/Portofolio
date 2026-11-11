@@ -525,7 +525,7 @@ html.modal-open { overflow: hidden; }
 .vw-info { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 36px 32px; overflow-y: auto; }
 .vw-info h3 { font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.15; }
 .vw-info p { color: #c3cdee; }
-.vw-info .vw-label { margin-top: 6px; margin-bottom: -4px; color: var(--muted); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+.vw-info .vw-label { margin-top: 6px; margin-bottom: 5px; color: var(--muted); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
 .vw-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .vw-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 [hidden] { display: none !important; }
