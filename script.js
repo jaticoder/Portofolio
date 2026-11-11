@@ -90,14 +90,86 @@ document.addEventListener("click", (e) => {
   setTimeout(() => dot.remove(), 600);
 });
 
-// Foto About miring mengikuti kursor
-const tilt = document.getElementById("tilt");
-if (tilt && matchMedia("(hover: hover)").matches) {
-  tilt.addEventListener("mousemove", (e) => {
-    const r = tilt.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    tilt.style.transform = `perspective(700px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+// Tumpukan foto: klik, geser, atau tombol panah untuk berganti (tiap tumpukan berjalan sendiri)
+document.querySelectorAll(".stack-group").forEach((group, n) => {
+  const stack = group.querySelector(".photo-stack");
+  const dotsBox = group.querySelector(".stack-dots");
+  const cards = [...stack.querySelectorAll(".pcard")];
+  const dots = cards.map(() => dotsBox.appendChild(document.createElement("i")));
+  let order = cards.slice();               // order[0] = foto paling depan
+  let busy = false, drag = false, moved = false, sx = 0, dx = 0;
+
+  const layout = () => {
+    order.forEach((c, i) => {
+      c.style.setProperty("--i", i);
+      c.classList.toggle("top", i === 0);
+      c.classList.toggle("far", i > 1);    // hanya 2 kartu teratas yang terlihat
+      c.style.transform = "";
+    });
+    dots.forEach((d, k) => d.classList.toggle("on", cards[k] === order[0]));
+  };
+  layout();
+
+  const send = (dir) => {                  // foto depan terbang keluar, lalu pindah ke belakang
+    if (busy || order.length < 2) return;
+    busy = true;
+    const top = order[0];
+    top.style.transform = `translateX(${dir * 130}%) rotate(${dir * 18}deg)`;
+    top.style.opacity = 0;
+    setTimeout(() => { order.push(order.shift()); top.style.opacity = ""; layout(); busy = false; }, 350);
+  };
+  const back = () => { if (busy || order.length < 2) return; order.unshift(order.pop()); layout(); };
+
+  stack.addEventListener("pointerdown", (e) => {
+    if (busy || e.target.closest(".pcard") !== order[0]) return;
+    drag = true; moved = false; sx = e.clientX; dx = 0;
+    order[0].classList.add("dragging");
+    stack.setPointerCapture(e.pointerId);
   });
-  tilt.addEventListener("mouseleave", () => { tilt.style.transform = ""; });
+  stack.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    dx = e.clientX - sx;
+    if (Math.abs(dx) > 5) moved = true;
+    order[0].style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+  });
+  const end = () => {
+    if (!drag) return;
+    drag = false;
+    order[0].classList.remove("dragging");
+    if (Math.abs(dx) > 80) send(dx > 0 ? 1 : -1);
+    else if (!moved) send(1);              // klik biasa
+    else order[0].style.transform = "";    // geser kurang jauh: balik lagi
+    start();
+  };
+  stack.addEventListener("pointerup", end);
+  stack.addEventListener("pointercancel", end);
+  stack.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") send(1);
+    if (e.key === "ArrowLeft") back();
+    start();
+  });
+
+  // Ganti foto otomatis tiap 4 detik. Berhenti saat kursor di atas foto, tab disembunyikan, atau tumpukan tidak terlihat.
+  const autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let timer = null, visible = false, hover = false;
+  const start = () => {
+    clearInterval(timer);
+    if (autoplay) timer = setInterval(() => { if (visible && !hover && !drag && !document.hidden) send(1); }, 4000);
+  };
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.3 }).observe(stack);
+  stack.addEventListener("pointerenter", () => { hover = true; });
+  stack.addEventListener("pointerleave", () => { hover = false; });
+  setTimeout(start, n * 2000);             // tumpukan kedua mulai telat 2 detik supaya tidak serempak
+});
+
+// Tombol salin email (alamatnya diambil otomatis dari tombol Kirim email)
+const mailLink = document.getElementById("mail-link");
+const copyBtn = document.getElementById("copy-mail");
+if (mailLink && copyBtn) {
+  copyBtn.addEventListener("click", async () => {
+    const email = mailLink.getAttribute("href").replace("mailto:", "");
+    try { await navigator.clipboard.writeText(email); copyBtn.textContent = "Tersalin ✓"; }
+    catch { copyBtn.textContent = email; }
+    setTimeout(() => { copyBtn.textContent = "Salin email"; }, 2000);
+  });
 }

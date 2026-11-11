@@ -9,7 +9,7 @@
   <meta property="og:description" content="Aku Jati, dan ini game-game yang kubuat.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Figtree:wght@400;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,11 +53,33 @@
     <!-- ABOUT -->
     <section class="section about" id="about">
       <div class="about-card glass reveal">
-        <div class="about-photo" id="tilt">
-          <img src="assets/about.jpg" alt="Foto Jati Wisnu di depan gedung Informatika" loading="lazy">
+        <div class="about-left">
+          <p class="eyebrow">Tentang Aku</p>
+          <!-- Mau tambah foto? Salin satu baris <figure ...> di dalam tumpukan, ganti nama filenya. -->
+          <div class="stack-group">
+            <div class="photo-stack" tabindex="0" aria-label="Foto Jati Wisnu, tumpukan atas. Berganti otomatis. Klik, geser, atau tekan panah untuk berganti sendiri.">
+              <figure class="pcard" data-file="assets/about.jpg"><img src="assets/about.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-2.jpg"><img src="assets/about-2.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-3.jpg"><img src="assets/about-3.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-4.jpg"><img src="assets/about-4.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+            </div>
+            <div class="stack-nav">
+              <span class="stack-dots" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <div class="photo-stack" tabindex="0" aria-label="Foto Jati Wisnu, tumpukan bawah. Berganti otomatis. Klik, geser, atau tekan panah untuk berganti sendiri.">
+              <figure class="pcard" data-file="assets/galeri-1.jpg"><img src="assets/galeri-1.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-2.jpg"><img src="assets/galeri-2.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-3.jpg"><img src="assets/galeri-3.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-4.jpg"><img src="assets/galeri-4.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+            </div>
+            <div class="stack-nav">
+              <span class="stack-dots" aria-hidden="true"></span>
+            </div>
+          </div>
         </div>
         <div class="about-text">
-          <p class="eyebrow">TENTANG AKU</p>
           <h2>Penasaran soal game, lalu <span class="grad">membuatnya sendiri.</span></h2>
           <p class="lead">Halo! Aku Wisnu, mahasiswa Teknik Informatika di Universitas Tanjungpura. Aku suka mencoba hal baru dan punya rasa penasaran yang besar, terutama soal bagaimana sebuah game dibuat. Dari situ aku mulai tertarik dengan game development dan sekarang sedang banyak bereksperimen dengan Unity dan C#. Selain game, aku juga membuat aplikasi mobile dengan Android Studio.</p>
           <ul class="stats">
@@ -122,14 +144,16 @@
 
     <!-- CONTACT -->
     <section class="section" id="contact">
-      <h2>Kontak</h2>
-      <p class="lead">Mau ngobrol atau kolaborasi? Cari aku di sini.</p>
-      <div class="socials">
-        <!-- Ganti tanda # dengan link aslimu -->
-        <a class="btn btn-ghost" href="https://jatiw-studio.itch.io/" target="_blank" rel="noopener">itch.io</a>
-        <a class="btn btn-ghost" href="https://github.com/jaticoder" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn btn-ghost" href="https://www.instagram.com/jatiwisnuu" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn btn-ghost" href="mailto:emailkamu@gmail.com">Email</a>
+      <div class="contact-card glass reveal">
+        <p class="eyebrow">Kontak</p>
+        <h2>Ayo bikin sesuatu <span class="grad">bareng.</span></h2>
+        <p class="lead">Punya ide game, mau kolaborasi, atau sekadar ingin ngobrol soal game dev? Kirim email saja.</p>
+        <p class="mail-text">hello.jatiwisnu@gmail.com</p>
+        <p class="status-badge"><i></i> Terbuka untuk kolaborasi</p>
+        <div class="contact-actions">
+          <a class="btn btn-solid" id="mail-link" href="mailto:hello.jatiwisnu@gmail.com">Kirim email</a>
+          <button class="btn btn-ghost" id="copy-mail" type="button">Salin email</button>
+        </div>
       </div>
     </section>
   </main>
