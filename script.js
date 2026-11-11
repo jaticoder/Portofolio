@@ -223,3 +223,88 @@ if (form) {
     btn.disabled = false; btn.textContent = "Kirim";
   });
 }
+
+// ===== PRESTASI DAN SERTIFIKAT =====
+// Mau tambah? Salin satu blok { ... }, tempel di bawahnya, jangan lupa koma.
+const achievements = [
+  {
+    badge: "Finalis",
+    title: "Artificial Intelligence Competition of Revolution",
+    org: "Mahasiswa Informatika FT Untan, Offline",
+    date: "10 Oktober 2026",
+    thumb: "assets/sertifikat/aicor-thumb.jpg",   // gambar kecil di kartu
+    image: "assets/sertifikat/aicor.jpg"          // gambar besar saat diklik
+  },
+  {
+    badge: "Peserta",
+    title: "UNTAN Programming Contest VI",
+    org: "Himpunan Mahasiswa Informatika Universitas Tanjungpura",
+    date: "Oktober 2026",
+    thumb: "assets/sertifikat/upc-thumb.jpg",
+    image: "assets/sertifikat/upc.jpg"
+  }
+];
+
+const achGrid = document.getElementById("achievement-grid");
+const lightbox = document.getElementById("lightbox");
+const lbImg = document.getElementById("lb-img");
+
+const openLightbox = (src, alt) => {
+  lbImg.src = src; lbImg.alt = alt;
+  lightbox.hidden = false;
+  requestAnimationFrame(() => lightbox.classList.add("open"));
+};
+const closeLightbox = () => {
+  lightbox.classList.remove("open");
+  setTimeout(() => { lightbox.hidden = true; lbImg.removeAttribute("src"); }, 300);
+};
+
+if (achGrid && lightbox) {
+  achievements.forEach((a) => {
+    const card = document.createElement("article");
+    card.className = "card glass achv";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `Lihat sertifikat ${a.badge} ${a.title}`);
+    card.innerHTML = `
+      <div class="thumb skeleton"><span>${a.title}</span></div>
+      <div class="card-body">
+        <span class="award-badge">${a.badge}</span>
+        <h3>${a.title}</h3>
+        <p>${a.org}<br>${a.date}</p>
+        <div class="card-links"><span class="btn btn-ghost">Lihat sertifikat</span></div>
+      </div>`;
+    achGrid.appendChild(card);
+
+    card.addEventListener("mousemove", (e) => {      // cahaya mengikuti kursor, sama seperti kartu project
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", e.clientX - r.left + "px");
+      card.style.setProperty("--my", e.clientY - r.top + "px");
+    });
+    const open = () => openLightbox(a.image, `Sertifikat ${a.badge} ${a.title}`);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+
+    const thumb = card.querySelector(".thumb");      // skeleton shimmer sampai gambar siap
+    const img = new Image();
+    img.alt = `Sertifikat ${a.title}`;
+    img.onload = () => { thumb.innerHTML = ""; thumb.appendChild(img); thumb.classList.remove("skeleton"); };
+    img.onerror = () => thumb.classList.remove("skeleton");
+    img.src = a.thumb;
+  });
+  lightbox.addEventListener("click", (e) => { if (e.target !== lbImg) closeLightbox(); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !lightbox.hidden) closeLightbox(); });
+}
+
+// ===== LOADING AWAL: skeleton shimmer sampai halaman siap =====
+const preloader = document.getElementById("preloader");
+const MIN_SHOW = 1200;   // skeleton tampil minimal segini (milidetik)
+const MAX_WAIT = 5000;   // tapi jangan menunggu lebih lama dari ini
+const pageLoaded = new Promise((r) => (document.readyState === "complete" ? r() : addEventListener("load", r, { once: true })));
+const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+const minTime = new Promise((r) => setTimeout(r, MIN_SHOW));
+Promise.race([Promise.all([pageLoaded, fontsReady, minTime]), new Promise((r) => setTimeout(r, MAX_WAIT))]).then(() => {
+  if (!preloader) return;
+  preloader.classList.add("done");
+  setTimeout(() => preloader.remove(), 700);
+});

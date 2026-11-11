@@ -13,6 +13,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- LOADING AWAL: skeleton shimmer, hilang otomatis setelah gambar siap (diatur script.js) -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="pl-nav skeleton"></div>
+    <div class="pl-hero">
+      <div class="pl-left"><div class="pl-line sm skeleton"></div><div class="pl-line xl skeleton"></div><div class="pl-line xl skeleton"></div><div class="pl-line md skeleton"></div></div>
+      <div class="pl-photo skeleton"></div>
+      <div class="pl-right"><div class="pl-line skeleton"></div><div class="pl-line skeleton"></div><div class="pl-line short skeleton"></div><div class="pl-icons"><i class="skeleton"></i><i class="skeleton"></i><i class="skeleton"></i><i class="skeleton"></i><i class="skeleton"></i></div><div class="pl-btn skeleton"></div></div>
+    </div>
+  </div>
+  <script>setTimeout(function(){var p=document.getElementById("preloader");if(p)p.classList.add("done")},6000)</script>
   <div class="bg" aria-hidden="true"></div>
   <div class="progress" aria-hidden="true"></div>
 
@@ -21,6 +31,7 @@
     <nav>
       <a href="#about">Tentang</a>
       <a href="#projects">Project</a>
+      <a href="#achievements">Prestasi</a>
       <a href="#contact">Kontak</a>
     </nav>
   </header>
@@ -35,7 +46,7 @@
         <p class="role">Game Developer</p>
       </div>
 
-      <img class="portrait" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
+      <img class="portrait" fetchpriority="high" decoding="async" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
 
       <div class="hero-right">
         <p>Berawal dari suka bermain game, sekarang aku justru tertarik untuk membuatnya sendiri. Sebagai mahasiswa Teknik Informatika, aku sedang banyak belajar dan bereksperimen di dunia game development.</p>
@@ -58,10 +69,10 @@
           <!-- Mau tambah foto? Salin satu baris <figure ...> di dalam tumpukan, ganti nama filenya. -->
           <div class="stack-group">
             <div class="photo-stack" tabindex="0" aria-label="Foto Jati Wisnu, tumpukan atas. Berganti otomatis. Klik, geser, atau tekan panah untuk berganti sendiri.">
-              <figure class="pcard" data-file="assets/about.jpg"><img src="assets/about.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/about-2.jpg"><img src="assets/about-2.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/about-3.jpg"><img src="assets/about-3.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/about-4.jpg"><img src="assets/about-4.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about.jpg"><img loading="lazy" decoding="async" src="assets/about.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-2.jpg"><img loading="lazy" decoding="async" src="assets/about-2.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-3.jpg"><img loading="lazy" decoding="async" src="assets/about-3.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/about-4.jpg"><img loading="lazy" decoding="async" src="assets/about-4.jpg" alt="Foto Jati Wisnu, tumpukan atas" onerror="this.parentNode.classList.add('empty')"></figure>
             </div>
             <div class="stack-nav">
               <span class="stack-dots" aria-hidden="true"></span>
@@ -69,10 +80,10 @@
           </div>
           <div class="stack-group">
             <div class="photo-stack" tabindex="0" aria-label="Foto Jati Wisnu, tumpukan bawah. Berganti otomatis. Klik, geser, atau tekan panah untuk berganti sendiri.">
-              <figure class="pcard" data-file="assets/galeri-1.jpg"><img src="assets/galeri-1.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-2.jpg"><img src="assets/galeri-2.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-3.jpg"><img src="assets/galeri-3.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-4.jpg"><img src="assets/galeri-4.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-1.jpg"><img loading="lazy" decoding="async" src="assets/galeri-1.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-2.jpg"><img loading="lazy" decoding="async" src="assets/galeri-2.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-3.jpg"><img loading="lazy" decoding="async" src="assets/galeri-3.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
+              <figure class="pcard" data-file="assets/galeri-4.jpg"><img loading="lazy" decoding="async" src="assets/galeri-4.jpg" alt="Foto Jati Wisnu, tumpukan bawah" onerror="this.parentNode.classList.add('empty')"></figure>
             </div>
             <div class="stack-nav">
               <span class="stack-dots" aria-hidden="true"></span>
@@ -134,6 +145,18 @@
             <p class="sub">Ojol Rush: game 2D top-down dengan Unity dan C#</p>
             <p class="tags"><span>Unity</span><span>C#</span></p>
           </li>
+          <li>
+            <div class="row"><b>Kitchen Staff</b><time>Okt 2025 - Feb 2026</time></div>
+            <p class="sub">Sushi Bento (restoran Jepang)</p>
+          </li>
+          <li>
+            <div class="row"><b>Head Warehouse</b><time>Jun - Sep 2024</time></div>
+            <p class="sub">Mie Rantau</p>
+          </li>
+          <li>
+            <div class="row"><b>Karyawan</b><time>Apr - Mei 2024</time></div>
+            <p class="sub">Mie Rantau</p>
+          </li>
         </ol>
       </div>
     </section>
@@ -142,6 +165,13 @@
     <section class="section" id="projects">
       <h2>Project</h2>
       <div class="grid" id="project-grid"></div>
+    </section>
+
+    <!-- PRESTASI: kartu dibuat otomatis oleh script.js (daftar ada di bagian atas "PRESTASI" di script.js) -->
+    <section class="section" id="achievements">
+      <h2>Prestasi</h2>
+      <p class="lead">Lomba dan kegiatan yang pernah kuikuti. Klik kartunya untuk melihat sertifikat.</p>
+      <div class="grid wide" id="achievement-grid"></div>
     </section>
 
     <!-- CONTACT -->
@@ -154,7 +184,7 @@
 
         <div class="chat">
           <div class="chat-head">
-            <span class="chat-avatar"><img src="assets/about.jpg" alt="" onerror="this.style.display='none'"></span>
+            <span class="chat-avatar"><img loading="lazy" decoding="async" src="assets/about.jpg" alt="" onerror="this.style.display='none'"></span>
             <div><b>Jati Wisnu</b><small>Game Developer</small></div>
           </div>
           <div class="chat-body" id="chat-body" aria-live="polite">
@@ -184,6 +214,11 @@
       </div>
     </section>
   </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Sertifikat" hidden>
+    <button class="lb-close" type="button" aria-label="Tutup">&times;</button>
+    <img id="lb-img" alt="">
+  </div>
 
   <footer class="footer">Dibuat oleh Jati Wisnu</footer>
   <script src="script.js"></script>
