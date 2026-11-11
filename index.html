@@ -100,19 +100,24 @@
             <li class="has-logo" title="Unity"><span class="logo-box"><img src="assets/tech/unity.png" alt="Unity"></span><div class="stat-text"><span>Engine utama</span><b>Unity Engine</b></div></li>
             <li class="has-logo" title="C#"><span class="logo-box"><img src="assets/tech/csharp.png" alt="C#"></span><div class="stat-text"><span>Bahasa utama</span><b>C#</b></div></li>
           </ul>
-          <p class="stack-title">Tools dan Bahasa</p>
+          <p class="stack-title">Tools</p>
           <ul class="stack-list">
             <li><span class="logo-box"><img src="assets/tech/androidstudio.png" alt=""></span>Android Studio</li>
-            <li><span class="logo-box"><img src="assets/tech/kotlin.png" alt=""></span>Kotlin</li>
+            <li><span class="logo-box" data-fallback="VS" style="--c:#0a7acc"><img src="assets/tools/vscode.png" alt="" onerror="this.remove()"></span>VS Code</li>
+            <li><span class="logo-box" data-fallback="AG" style="--c:#3b82f6"><img src="assets/tools/antigravity.png" alt="" onerror="this.remove()"></span>Antigravity</li>
+            <li><span class="logo-box" data-fallback="Ca" style="--c:#00a3ad"><img src="assets/tools/canva.png" alt="" onerror="this.remove()"></span>Canva</li>
+            <li><span class="logo-box" data-fallback="Pa" style="--c:#b3139b"><img src="assets/tools/picsart.png" alt="" onerror="this.remove()"></span>Picsart</li>
+            <li><span class="logo-box" data-fallback="PL" style="--c:#e8590c"><img src="assets/tools/pixellab.png" alt="" onerror="this.remove()"></span>PixelLab</li>
+            <li><span class="logo-box" data-fallback="AM" style="--c:#0a84c6"><img src="assets/tools/alightmotion.png" alt="" onerror="this.remove()"></span>Alight Motion</li>
+            <li><span class="logo-box" data-fallback="CC" style="--c:#222222"><img src="assets/tools/capcut.png" alt="" onerror="this.remove()"></span>CapCut</li>
+          </ul>
+          <p class="stack-title">Bahasa</p>
+          <ul class="stack-list">
             <li><span class="logo-box"><img src="assets/tech/cpp.png" alt=""></span>C++</li>
+            <li><span class="logo-box"><img src="assets/tech/kotlin.png" alt=""></span>Kotlin</li>
+            <li><span class="logo-box"><img src="assets/tech/python.png" alt=""></span>Python</li>
             <li><span class="logo-box"><img src="assets/tech/javascript.png" alt=""></span>JavaScript</li>
             <li><span class="logo-box"><img src="assets/tech/nodejs.png" alt=""></span>Node.js</li>
-            <li><span class="logo-box"><img src="assets/tech/python.png" alt=""></span>Python</li>
-          </ul>
-          <ul class="now">
-            <li><i></i> On Progress: Ojol Rush Game</li>
-            <li><i></i> On Progress: Web Portofolio</li>
-            <li><i></i> Coming Soon</li>
           </ul>
         </div>
       </div>
@@ -122,6 +127,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
           Education
         </h3>
+        <div class="path-scroll">
         <ol>
           <li>
             <div class="row"><b>Universitas Tanjungpura</b><time>2026 - Sekarang</time></div>
@@ -132,6 +138,7 @@
             <p class="sub">Jurusan IPS</p>
           </li>
         </ol>
+        </div>
       </div>
 
       <div class="path reveal">
@@ -139,6 +146,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
           Experience
         </h3>
+        <div class="path-scroll">
         <ol>
           <li>
             <div class="row"><b>Solo Game Developer</b><time>2026 - Sekarang</time></div>
@@ -158,13 +166,15 @@
             <p class="sub">Mie Rantau</p>
           </li>
         </ol>
+        </div>
       </div>
     </section>
 
-    <!-- PROJECTS: kartu dibuat otomatis oleh script.js -->
+    <!-- PROJECT: folder ala Windows Explorer, dibuat otomatis oleh script.js (daftar ada di bagian atas script.js) -->
     <section class="section" id="projects">
       <h2>Project</h2>
-      <div class="grid" id="project-grid"></div>
+      <p class="lead">Klik sebuah folder untuk membuka isinya.</p>
+      <div class="folders" id="folder-row"></div>
     </section>
 
     <!-- PRESTASI: kartu dibuat otomatis oleh script.js (daftar ada di bagian atas "PRESTASI" di script.js) -->
@@ -200,7 +210,6 @@
               <textarea name="message" rows="3" placeholder="Tulis pesanmu..." required maxlength="1500"></textarea>
               <button class="btn btn-solid" type="submit">Kirim</button>
             </div>
-            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
             <input type="hidden" name="_subject" value="Pesan baru dari portofolio">
             <input type="hidden" name="_template" value="table">
           </form>
@@ -218,6 +227,39 @@
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Sertifikat" hidden>
     <button class="lb-close" type="button" aria-label="Tutup">&times;</button>
     <img id="lb-img" alt="">
+  </div>
+
+  <!-- JENDELA FOLDER (ala Windows Explorer), isinya diatur script.js -->
+  <div class="explorer" id="explorer" role="dialog" aria-modal="true" aria-labelledby="ex-title" hidden>
+    <div class="win">
+      <div class="win-bar">
+        <div class="win-tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span id="ex-title">Folder</span></div>
+        <button class="win-close" id="ex-close" type="button" aria-label="Tutup jendela"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="win-addr"><div class="addr-box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Project</span><i>&rsaquo;</i><b id="ex-path"></b></div></div>
+      <nav class="win-side" id="ex-side" aria-label="Daftar folder"></nav>
+      <div class="win-body" id="ex-body"></div>
+      <div class="win-status" id="ex-status"></div>
+    </div>
+  </div>
+
+  <!-- POPUP DETAIL KARYA: gambar besar, judul, deskripsi, dan pill tools -->
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vw-title" hidden>
+    <div class="vw-card">
+      <button class="lb-close vw-close" id="vw-close" type="button" aria-label="Tutup">&times;</button>
+      <div class="vw-img">
+        <button class="vw-nav vw-prev" id="vw-prev" type="button" aria-label="Sebelumnya">&lsaquo;</button>
+        <img id="vw-img" alt="">
+        <button class="vw-nav vw-next" id="vw-next" type="button" aria-label="Berikutnya">&rsaquo;</button>
+      </div>
+      <div class="vw-info">
+        <span class="award-badge" id="vw-badge"></span>
+        <h3 id="vw-title"></h3>
+        <p id="vw-desc"></p>
+        <div id="vw-tools-wrap"><p class="vw-label">Tools</p><div class="vw-pills" id="vw-tools"></div></div>
+        <div class="vw-links" id="vw-links"></div>
+      </div>
+    </div>
   </div>
 
   <footer class="footer">Dibuat oleh Jati Wisnu</footer>
