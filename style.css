@@ -129,7 +129,7 @@ a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 /* ===== ABOUT: kartu foto + teks ===== */
 .about { display: grid; grid-template-columns: 1fr 1fr; gap: 6vh 5vw; align-items: start; }
 .about-card { grid-column: 1 / -1; display: grid; grid-template-columns: 320px 1fr; gap: 36px; padding: 28px; align-items: stretch; }
-.eyebrow { font-family: var(--font-accent); color: var(--cyan); font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.eyebrow { font-family: var(--font-accent); color: var(--cyan); font-size: 3.3rem; font-weight: 700; line-height: 1; }
 .about-text h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.15; margin-bottom: 14px; }
 .grad { background: linear-gradient(90deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .stats { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
