@@ -5,18 +5,42 @@
 const designTools = ["Picsart", "Canva", "Ibis Paint X"];
 
 const folders = [
-  {
+    {
     name: "Game",
     items: [
       {
         title: "Ojol Rush",
-        badge: "Sedang dikembangkan",
-        desc: "Game 2D top-down endless dodger: hindari rintangan selama mungkin.",
+        badge: "In development",
+        desc: "A 2D top-down endless dodger: avoid obstacles for as long as you can.",
         tools: ["Unity", "C#"],
-        thumb: "assets/ojol-rush.png",   // gambar kecil di jendela folder
-        image: "assets/ojol-rush.png",   // gambar besar di popup
-        itch: "",                        // isi link itch.io kalau sudah rilis
-        github: ""                       // isi link repo GitHub
+        thumb: "assets/ojol-rush.png",
+        image: "assets/ojol-rush.png",
+        itch: "",
+        github: ""
+      },
+      {
+        title: "Gameplay",
+        badge: "GIF",
+        desc: "Weaving through highway traffic on a motorbike. Dodge the trucks, collect coins, and keep your score multiplier going.",
+        tools: ["Unity", "C#"],
+        thumb: "assets/game/gameplay-thumb.png",
+        image: "assets/game/gameplay.gif"
+      },
+      {
+        title: "Main Menu",
+        badge: "Screenshot",
+        desc: "The main menu, with buttons for playing, the shop, credits, and exiting.",
+        tools: ["Unity", "C#"],
+        thumb: "assets/game/mainmenu-thumb.png",
+        image: "assets/game/mainmenu.png"
+      },
+      {
+        title: "Garage",
+        badge: "Screenshot",
+        desc: "The garage, where you browse locked motorbikes and unlock new ones with the coins you've earned.",
+        tools: ["Unity", "C#"],
+        thumb: "assets/game/shopmenu-thumb.png",
+        image: "assets/game/shopmenu.png"
       }
     ]
   },
@@ -26,7 +50,7 @@ const folders = [
       {
         title: "Thuram",
         badge: "Poster",
-        desc: "Poster Thuram (Inter Milan) dengan latar lavender dan lingkaran biru tua besar. Judul bergaya kuas di atas, sentuhan warna bendera Prancis di sudut-sudutnya.",
+        desc: "Thuram (Inter Milan) poster on a lavender background with a big dark-blue circle. A brush-style title across the top, with touches of the French flag colors in the corners.",
         tools: designTools,
         thumb: "assets/desain/thuram-thumb.png",
         image: "assets/desain/thuram.png"
@@ -34,7 +58,7 @@ const folders = [
       {
         title: "Neymar",
         badge: "Poster",
-        desc: "Poster Neymar dengan seragam Barcelona. Latar krem bertekstur titik halftone, huruf nama miring bergaris biru dan merah, dan beberapa potongan foto yang ditumpuk. Subjudulnya 'The Last Jogo Bonito'.",
+        desc: "Neymar poster in a Barcelona kit. A cream background with a halftone dot texture, slanted name letters striped in blue and red, and several photo cutouts layered together. The tagline reads 'The Last Jogo Bonito'.",
         tools: designTools,
         thumb: "assets/desain/neymar-thumb.png",
         image: "assets/desain/neymar.png"
@@ -42,7 +66,7 @@ const folders = [
       {
         title: "Rashford",
         badge: "Poster",
-        desc: "Poster Rashford dengan jersey Barcelona. Suasana biru tua pekat dengan nama raksasa bergradasi di belakang tiga potongan foto, ditambah efek cahaya di tepinya.",
+        desc: "Rashford poster in a Barcelona jersey. A deep dark-blue mood with a giant gradient name behind three photo cutouts, plus a glow effect along the edges.",
         tools: designTools,
         thumb: "assets/desain/rashford-thumb.png",
         image: "assets/desain/rashford.png"
@@ -50,7 +74,7 @@ const folders = [
       {
         title: "Cristiano Ronaldo",
         badge: "Poster",
-        desc: "Poster 'The GOAT' untuk Cristiano Ronaldo di Al Nassr. Foto hitam-putih bergaris putih tebal dipadukan seragam kuning yang tetap berwarna, di atas latar stadion dan logo klub berukuran besar.",
+        desc: "'The GOAT' poster for Cristiano Ronaldo at Al Nassr. Black-and-white photos with thick white outlines, paired with yellow kits that keep their color, over a stadium background and a large club logo.",
         tools: designTools,
         thumb: "assets/desain/ronaldo-thumb.png",
         image: "assets/desain/ronaldo.png"
@@ -58,7 +82,7 @@ const folders = [
       {
         title: "Lionel Messi",
         badge: "Poster",
-        desc: "Poster Messi bernuansa pink Inter Miami. Wajah close-up yang besar bertemu sosok kecil yang berlari merayakan gol, lengkap dengan tulisan melengkung 'The Greatest of All Time', nomor 10, dan tanda tangan.",
+        desc: "Messi poster in Inter Miami pink. A big close-up face meets a small figure running to celebrate a goal, complete with curved text reading 'The Greatest of All Time', the number 10, and a signature.",
         tools: designTools,
         thumb: "assets/desain/messi-thumb.png",
         image: "assets/desain/messi.png"
@@ -66,7 +90,7 @@ const folders = [
       {
         title: "Bruno Fernandes",
         badge: "Poster",
-        desc: "Poster Bruno Fernandes (Manchester United, nomor 8). Tipografi 'FERNANDES' yang besar berada di belakang pemain, ditambah angka 8 raksasa yang samar dan tulisan tangan 'Bruno' bergaya kuas di atas latar merah bertekstur grain.",
+        desc: "Bruno Fernandes poster (Manchester United, number 8). Big 'FERNANDES' typography sits behind the player, with a faint giant number 8 and a brush-style handwritten 'Bruno' over a red grainy background.",
         tools: designTools,
         thumb: "assets/desain/bruno-thumb.png",
         image: "assets/desain/bruno.png"
@@ -83,7 +107,7 @@ const el = (tag, cls, text) => {
   return n;
 };
 const FOLDER_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>';
-const countText = (n) => (n ? `${n} item` : "Kosong");
+const countText = (n) => (n ? `${n} ${n === 1 ? "item" : "items"}` : "Empty");
 
 const folderRow = document.getElementById("folder-row");
 const explorer = document.getElementById("explorer");
@@ -137,14 +161,14 @@ if (folderRow && explorer && viewer) {
     exBody.textContent = "";                       // isi folder di kanan
     exBody.scrollTop = 0;
     if (!f.items.length) {
-      exBody.appendChild(el("p", "win-empty", "Folder ini masih kosong. Karya baru segera hadir."));
+      exBody.appendChild(el("p", "win-empty", "This folder is empty for now. New work is coming soon."));
       return;
     }
     f.items.forEach((it, n) => {
       const file = el("button", "file");
       file.type = "button";
       file.style.setProperty("--n", n);
-      file.setAttribute("aria-label", `Lihat ${it.title}`);
+      file.setAttribute("aria-label", `View ${it.title}`);
       const th = el("span", "file-thumb skeleton");   // skeleton shimmer sampai gambar siap
       const img = new Image();
       img.alt = it.title; img.decoding = "async";
@@ -186,7 +210,7 @@ if (folderRow && explorer && viewer) {
     (it.tools || []).forEach((t) => vwTools.appendChild(el("span", "award-badge", t)));
     vwToolsWrap.hidden = !(it.tools && it.tools.length);
     vwLinks.textContent = "";
-    [[it.itch, "btn btn-solid", "Main di itch.io"], [it.github, "btn btn-ghost", "Kode"]].forEach(([href, cls, label]) => {
+    [[it.itch, "btn btn-solid", "Play on itch.io"], [it.github, "btn btn-ghost", "Source code"]].forEach(([href, cls, label]) => {
       if (!href) return;
       const a = el("a", cls, label);
       a.href = href; a.target = "_blank"; a.rel = "noopener";
@@ -216,7 +240,7 @@ if (folderRow && explorer && viewer) {
     const btn = el("button", "folder reveal" + (f.soon ? " soon" : ""));
     btn.type = "button";
     btn.style.setProperty("--d", idx);
-    btn.setAttribute("aria-label", f.soon ? "Folder Coming Soon, belum ada isi" : `Buka folder ${f.name}, ${countText(f.items.length)}`);
+    btn.setAttribute("aria-label", f.soon ? "Coming Soon folder, nothing inside yet" : `Open folder ${f.name}, ${countText(f.items.length)}`);
 
     const art = el("span", "f-art");
     const peek = el("span", "f-peek");
@@ -236,13 +260,13 @@ if (folderRow && explorer && viewer) {
       cardEls.push(card);
     }
     art.append(el("span", "f-back"), peek, el("span", "f-front"));
-    btn.append(art, el("span", "f-name", f.name), el("span", "f-meta", f.soon ? "Segera hadir" : countText(f.items.length)), el("span", "f-hint", f.soon ? "" : "Klik untuk membuka"));
+    btn.append(art, el("span", "f-name", f.name), el("span", "f-meta", f.soon ? "Stay tuned" : countText(f.items.length)), el("span", "f-hint", f.soon ? "" : "Click to open"));
     folderRow.appendChild(btn);
 
     btn.addEventListener("click", () => {
       if (!f.soon) { openExplorer(idx, btn); return; }
       btn.classList.add("wiggle");                 // folder kosong: cuma bergoyang
-      btn.querySelector(".f-hint").textContent = "Belum ada isi";
+      btn.querySelector(".f-hint").textContent = "Nothing inside yet";
       setTimeout(() => btn.classList.remove("wiggle"), 600);
     });
 
@@ -388,9 +412,9 @@ const copyBtn = document.getElementById("copy-mail");
 if (mailLink && copyBtn) {
   copyBtn.addEventListener("click", async () => {
     const email = mailLink.getAttribute("href").replace("mailto:", "");
-    try { await navigator.clipboard.writeText(email); copyBtn.textContent = "Tersalin ✓"; }
+    try { await navigator.clipboard.writeText(email); copyBtn.textContent = "Copied ✓"; }
     catch { copyBtn.textContent = email; }
-    setTimeout(() => { copyBtn.textContent = "Salin email"; }, 2000);
+    setTimeout(() => { copyBtn.textContent = "Copy email"; }, 2000);
   });
 }
 
@@ -412,11 +436,11 @@ if (form) {
     const data = new FormData(form);
     const btn = form.querySelector("button[type=submit]");
     const name = String(data.get("name")).trim();
-    btn.disabled = true; btn.textContent = "Mengirim...";
+    btn.disabled = true; btn.textContent = "Sending...";
     bubble("me", String(data.get("message")).trim());
     const status = document.createElement("div");      // keterangan kecil di bawah pesan, seperti centang di aplikasi chat
     status.className = "msg-status";
-    status.textContent = "Mengirim...";
+    status.textContent = "Sending...";
     chat.appendChild(status);
     toBottom();
     try {
@@ -427,19 +451,19 @@ if (form) {
       const json = await res.json().catch(() => ({}));
       if (!res.ok || json.success === "false" || json.success === false) throw new Error("gagal");
       status.className = "msg-status ok";
-      status.textContent = "✓ Pesan terkirim";
+      status.textContent = "✓ Message sent";
       form.reset();
       const typing = bubble("them typing", "");         // lalu balasan terpisah dari kamu
       await new Promise((r) => setTimeout(r, 1000));
       typing.className = "bubble them";
-      typing.textContent = `Terima kasih, ${name}! Pesanmu sudah masuk ke inbox-ku, nanti kubalas lewat email ya.`;
+      typing.textContent = `Thanks, ${name}! Your message is in my inbox, and I'll reply by email.`;
     } catch {
       status.className = "msg-status error";
-      status.textContent = "Belum terkirim";
-      bubble("them error", "Pesanmu belum terkirim. Coba lagi sebentar lagi, atau kirim langsung lewat email di bawah.");
+      status.textContent = "Not sent";
+      bubble("them error", "Your message wasn't sent. Please try again in a moment, or email me directly below.");
     }
     toBottom();
-    btn.disabled = false; btn.textContent = "Kirim";
+    btn.disabled = false; btn.textContent = "Send";
   });
 }
 
@@ -447,18 +471,18 @@ if (form) {
 // Mau tambah? Salin satu blok { ... }, tempel di bawahnya, jangan lupa koma.
 const achievements = [
   {
-    badge: "Finalis",
+    badge: "Finalist",
     title: "Artificial Intelligence Competition of Revolution",
-    org: "Mahasiswa Informatika FT Untan, Offline",
-    date: "10 Oktober 2026",
+    org: "Informatics Students, Faculty of Engineering, Untan (in person)",
+    date: "10 October 2026",
     thumb: "assets/sertifikat/aicor-thumb.jpg",   // gambar kecil di kartu
     image: "assets/sertifikat/aicor.jpg"          // gambar besar saat diklik
   },
   {
-    badge: "Peserta",
+    badge: "Participant",
     title: "UNTAN Programming Contest VI",
-    org: "Himpunan Mahasiswa Informatika Universitas Tanjungpura",
-    date: "Oktober 2026",
+    org: "Informatics Student Association (HMIF), Universitas Tanjungpura",
+    date: "October 2026",
     thumb: "assets/sertifikat/upc-thumb.jpg",
     image: "assets/sertifikat/upc.jpg"
   }
@@ -484,14 +508,14 @@ if (achGrid && lightbox) {
     card.className = "card glass achv";
     card.tabIndex = 0;
     card.setAttribute("role", "button");
-    card.setAttribute("aria-label", `Lihat sertifikat ${a.badge} ${a.title}`);
+    card.setAttribute("aria-label", `View certificate: ${a.badge}, ${a.title}`);
     card.innerHTML = `
       <div class="thumb skeleton"><span>${a.title}</span></div>
       <div class="card-body">
         <span class="award-badge">${a.badge}</span>
         <h3>${a.title}</h3>
         <p>${a.org}<br>${a.date}</p>
-        <div class="card-links"><span class="btn btn-ghost">Lihat sertifikat</span></div>
+        <div class="card-links"><span class="btn btn-ghost">View certificate</span></div>
       </div>`;
     achGrid.appendChild(card);
 
@@ -500,13 +524,13 @@ if (achGrid && lightbox) {
       card.style.setProperty("--mx", e.clientX - r.left + "px");
       card.style.setProperty("--my", e.clientY - r.top + "px");
     });
-    const open = () => openLightbox(a.image, `Sertifikat ${a.badge} ${a.title}`);
+    const open = () => openLightbox(a.image, `Certificate: ${a.badge}, ${a.title}`);
     card.addEventListener("click", open);
     card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
 
     const thumb = card.querySelector(".thumb");      // skeleton shimmer sampai gambar siap
     const img = new Image();
-    img.alt = `Sertifikat ${a.title}`;
+    img.alt = `Certificate: ${a.title}`;
     img.onload = () => { thumb.innerHTML = ""; thumb.appendChild(img); thumb.classList.remove("skeleton"); };
     img.onerror = () => thumb.classList.remove("skeleton");
     img.src = a.thumb;
