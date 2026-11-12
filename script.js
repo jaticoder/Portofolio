@@ -220,16 +220,20 @@ if (folderRow && explorer && viewer) {
 
     const art = el("span", "f-art");
     const peek = el("span", "f-peek");
-    const shown = Math.min(3, f.items.length);
-    peek.dataset.n = shown;
-    const peekImgs = [];
+    const n = f.items.length;
+    const roll = n > 3;                             // lebih dari 3 poster: kartunya bergulir
+    const shown = roll ? 4 : Math.min(3, n);        // 3 kartu terlihat + 1 kartu yang menunggu di belakang
+    peek.dataset.n = roll ? "roll" : shown;
+    const cardEls = [];
     for (let k = 0; k < shown; k++) {               // poster yang mengintip dari folder
       const card = el("span", "peek-card");
       const im = new Image();
-      im.alt = ""; im.decoding = "async"; im.src = f.items[k].thumb;
+      im.alt = ""; im.decoding = "async";
+      im.src = f.items[k < 3 ? k : n - 1].thumb;    // kartu ke-4 menunggu dengan poster terakhir
+      if (roll) card.dataset.slot = k < 3 ? k : 4;  // slot: 0 kiri, 1 tengah, 2 kanan, 3 menyelinap ke belakang, 4 menunggu di kiri
       card.appendChild(im);
       peek.appendChild(card);
-      peekImgs.push(im);
+      cardEls.push(card);
     }
     art.append(el("span", "f-back"), peek, el("span", "f-front"));
     btn.append(art, el("span", "f-name", f.name), el("span", "f-meta", f.soon ? "Segera hadir" : countText(f.items.length)), el("span", "f-hint", f.soon ? "" : "Klik untuk membuka"));
@@ -242,18 +246,27 @@ if (folderRow && explorer && viewer) {
       setTimeout(() => btn.classList.remove("wiggle"), 600);
     });
 
-    if (peekAuto && f.items.length > 3) {           // poster yang mengintip berganti pelan-pelan
+    if (peekAuto && roll) {                         // kartu bergulir: kiri ke tengah, tengah ke kanan, kanan menyelinap ke belakang
       let off = 0, visible = false, hover = false;
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.2 }).observe(btn);
       btn.addEventListener("pointerenter", () => { hover = true; });
       btn.addEventListener("pointerleave", () => { hover = false; });
       setInterval(() => {
         if (!visible || hover || document.hidden) return;
-        off = (off + 1) % f.items.length;
-        peekImgs.forEach((im, k) => setTimeout(() => {
-          im.classList.add("swap");
-          setTimeout(() => { im.src = f.items[(off + k) % f.items.length].thumb; im.classList.remove("swap"); }, 260);
-        }, k * 350));
+        off = (off - 1 + n) % n;                    // nomor poster yang masuk dari kiri
+        cardEls.forEach((c) => {                    // semua kartu geser satu slot (animasinya diatur CSS)
+          const slot = +c.dataset.slot;
+          c.dataset.slot = slot === 4 ? 0 : slot + 1;
+        });
+        setTimeout(() => {                          // kartu yang sudah di belakang pindah diam-diam ke antrean kiri
+          const gone = cardEls.find((c) => c.dataset.slot === "3");
+          if (!gone) return;
+          gone.querySelector("img").src = f.items[(off - 1 + n) % n].thumb;   // poster untuk giliran berikutnya
+          gone.style.transition = "none";
+          gone.dataset.slot = 4;
+          void gone.offsetWidth;
+          gone.style.transition = "";
+        }, 800);
       }, 4200);
     }
   });
