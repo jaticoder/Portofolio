@@ -741,13 +741,14 @@ html, body { overflow-x: clip; }
   .logo { font-size: .75rem; }
 }
 
-/* ===== HP: glow biru menempel di belakang foto (di desktop glow-nya ada di .hero::before, di HP bentuknya jadi pita sempit di belakang nama) ===== */
+/* ===== HP: glow biru menempel di belakang foto ===== */
 @media (max-width: 800px) {
   .hero::before { content: none; }
   .portrait-stage::before {
-    content: ""; position: absolute; left: 50%; top: 52%; z-index: -1; pointer-events: none;
-    /* Ubah 190% / 120% untuk lebar-tinggi glow, dan angka .38 untuk terangnya (sama seperti di desktop) */
-    width: 190%; height: 120%; transform: translate(-50%, -50%);
-    background: radial-gradient(closest-side, rgba(59, 108, 255, .38), rgba(34, 199, 230, .10) 60%, transparent);
+    content: ""; position: absolute; left: 50%; top: 50%; z-index: -1; pointer-events: none;
+    width: 240%; height: 150%; transform: translate(-50%, -50%);
+    background:
+      radial-gradient(closest-side, rgba(59, 108, 255, .62), rgba(59, 108, 255, .28) 45%, rgba(34, 199, 230, .10) 70%, transparent),
+      radial-gradient(closest-side at 50% 80%, rgba(91, 70, 224, .35), transparent 80%);
   }
 }
