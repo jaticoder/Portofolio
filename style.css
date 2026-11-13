@@ -717,3 +717,26 @@ html, body { overflow-x: clip; }
   .tech-grid { gap: 10px; }
   .tech-grid li { flex-basis: calc((100% - 20px) / 3); padding: 16px 6px 14px; }
 }
+
+/* ===== HP: chip melayang tidak lagi menutupi wajah di foto ===== */
+@media (max-width: 800px) {
+  .float-chip small { display: none; }                      /* di layar kecil cukup judulnya, supaya chip pendek dan muat di samping kepala */
+  .float-chip { padding: 4px 12px 4px 4px; }
+  .fc-1 { top: 7%; left: -15%; }                            /* di samping kepala, bukan di atas wajah */
+  .fc-2 { top: 24%; right: -15%; }
+}
+
+@media (max-width: 340px) {
+  .float-chip { gap: 6px; padding: 3px 10px 3px 3px; }
+  .float-chip b { font-size: .72rem; }
+  .fc-ico { width: 26px; height: 26px; padding: 3px; }
+}
+
+/* ===== Nama di pill atas: tulisan penuh juga di HP (menunya sekarang cuma tiga, jadi muat) ===== */
+@media (max-width: 560px) {
+  .logo { font-size: .85rem; }
+  .logo::after { content: none; }
+}
+@media (max-width: 360px) {
+  .logo { font-size: .75rem; }
+}
