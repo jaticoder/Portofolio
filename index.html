@@ -38,7 +38,6 @@
 
   <main>
     <section class="hero" id="home">
-      <span class="bg-word" aria-hidden="true">Portfolio</span>
 
       <div class="hero-left">
         <p class="hi">Hi, I'm</p>
@@ -48,17 +47,23 @@
 
       <!-- Efek cairan: kursor/jari di atas foto membuka gambar kedua (lihat bagian "HERO: efek cairan" di script.js).
            Mau pakai fotomu sendiri? Taruh PNG transparan di assets/portrait-2.png (ukuran sama dengan portrait.png). -->
-      <div class="portrait-wrap" id="portrait-wrap">
-        <img class="portrait" fetchpriority="high" decoding="async" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
-        <canvas class="portrait-fx" id="portrait-fx" aria-hidden="true"></canvas>
+      <div class="portrait-stage">
+        <div class="portrait-wrap" id="portrait-wrap">
+          <img class="portrait" fetchpriority="high" decoding="async" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
+          <canvas class="portrait-fx" id="portrait-fx" aria-hidden="true"></canvas>
+        </div>
+        <!-- Chip melayang di sekitar foto. Mau ganti tulisannya? Edit teks di dalam <b> dan <small>. Mau hapus satu? Hapus satu baris <span class="float-chip ..."> -->
+        <span class="float-chip fc-1"><i class="fc-ico"><img src="assets/tech/unity.png" alt="" onerror="this.remove()"></i><span><b>Unity Engine</b><small>Main Game Engine</small></span></span>
+        <span class="float-chip fc-2"><i class="fc-ico"><img src="assets/logos/untan.png" alt="" onerror="this.remove()"></i><span><b>Informatics</b><small>Universitas Tanjungpura</small></span></span>
+        <span class="float-chip fc-3"><i class="fc-ico fc-game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg></i><span><b>1 game made</b><small>and counting</small></span></span>
       </div>
 
       <div class="hero-right">
         <p>It started with loving to play games, and now I'm actually more interested in making them myself. As an Informatics student, I'm learning and experimenting a lot in game development.</p>
         <ul class="social-icons">
           <li><a href="https://github.com/jaticoder" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><img src="assets/icons/github.png" alt="GitHub"></a></li>
-          <li><a href="https://discord.com/users/1157973995778474084" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><img src="assets/icons/discord.png" alt="Discord"></a></li>
           <li><a href="https://www.instagram.com/jatiwisnuu?xtok=cjZzdmtuZ3VtNGtm" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><img src="assets/icons/instagram.png" alt="Instagram"></a></li>
+          <li><a href="https://discord.com/users/1157973995778474084" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><img src="assets/icons/discord.png" alt="Discord"></a></li>
           <li><a href="https://steamcommunity.com/id/advegation" target="_blank" rel="noopener" aria-label="Steam" title="Steam"><img src="assets/icons/steam.png" alt="Steam"></a></li>
           <li><a href="https://jatiw-studio.itch.io/" target="_blank" rel="noopener" aria-label="itch.io" title="itch.io"><img src="assets/icons/itchio.png" alt="itch.io"></a></li>
         </ul>
