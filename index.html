@@ -262,13 +262,19 @@
       <button class="lb-close vw-close" id="vw-close" type="button" aria-label="Close">&times;</button>
       <div class="vw-img">
         <button class="vw-nav vw-prev" id="vw-prev" type="button" aria-label="Previous">&lsaquo;</button>
-        <img id="vw-img" alt="">
+        <img id="vw-img" alt="" draggable="false">
         <button class="vw-nav vw-next" id="vw-next" type="button" aria-label="Next">&rsaquo;</button>
+        <div class="vw-meta"><span id="vw-cap"></span><span id="vw-count"></span></div>
       </div>
       <div class="vw-info">
         <span class="award-badge" id="vw-badge"></span>
         <h3 id="vw-title"></h3>
         <p id="vw-desc"></p>
+        <div id="vw-gal-wrap" hidden>
+          <p class="vw-label">Gallery</p>
+          <div class="vw-strip" id="vw-strip"></div>
+          <p class="vw-shotdesc" id="vw-shotdesc"></p>
+        </div>
         <div id="vw-tools-wrap"><p class="vw-label">Tools</p><div class="vw-pills" id="vw-tools"></div></div>
         <div class="vw-links" id="vw-links"></div>
       </div>

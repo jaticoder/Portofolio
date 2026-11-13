@@ -1,5 +1,6 @@
 // ===== PROJECT: folder ala Windows Explorer =====
 // Tiap folder punya daftar isi ("items"). Mau tambah karya? Salin satu blok { ... } di dalam items, jangan lupa koma.
+// Satu karya bisa punya banyak gambar: isi "gallery" (lihat contoh Ojol Rush), maka popup-nya jadi galeri yang bisa digeser.
 // Mau tambah folder baru? Salin satu blok folder, tempel di bawahnya. Kalau foldernya lebih dari 3, barisnya otomatis bisa digeser ke kanan.
 // Semua judul dan deskripsi di bawah ini draf dariku, silakan ganti dengan tulisanmu sendiri.
 const designTools = ["Picsart", "Canva", "Ibis Paint X"];
@@ -13,34 +14,33 @@ const folders = [
         badge: "In development",
         desc: "A 2D top-down endless dodger: avoid obstacles for as long as you can.",
         tools: ["Unity", "C#"],
-        thumb: "assets/ojol-rush.png",
-        image: "assets/ojol-rush.png",
+        thumb: "assets/ojol-rush.png",   // gambar kartu di jendela folder
+        ratio: "4 / 5",                 // rasio gambar kartu (screenshot gamemu 9:16), supaya tidak terpotong
+        // Galeri di dalam popup: screenshot dan GIF yang bisa digeser. Mau tambah? Salin satu blok { ... }.
+        // thumb = gambar kecil di bawah popup, src = gambar besar (boleh .gif), desc boleh dikosongkan.
+        gallery: [
+          { caption: "Logo", thumb: "assets/ojol-rush.png", src: "assets/ojol-rush.png" },
+          {
+            caption: "Gameplay",
+            desc: "Weaving through highway traffic on a motorbike. Dodge the trucks, collect coins, and keep your score multiplier going.",
+            thumb: "assets/game/gameplay-thumb.png",
+            src: "assets/game/gameplay.gif"
+          },
+          {
+            caption: "Main Menu",
+            desc: "The main menu, with buttons for playing, the shop, credits, and exiting.",
+            thumb: "assets/game/mainmenu-thumb.png",
+            src: "assets/game/mainmenu.png"
+          },
+          {
+            caption: "Garage",
+            desc: "The garage, where you browse locked motorbikes and unlock new ones with the coins you've earned.",
+            thumb: "assets/game/shopmenu-thumb.png",
+            src: "assets/game/shopmenu.png"
+          }
+        ],
         itch: "",
         github: ""
-      },
-      {
-        title: "Gameplay",
-        badge: "GIF",
-        desc: "Weaving through highway traffic on a motorbike. Dodge the trucks, collect coins, and keep your score multiplier going.",
-        tools: ["Unity", "C#"],
-        thumb: "assets/game/gameplay-thumb.png",
-        image: "assets/game/gameplay.gif"
-      },
-      {
-        title: "Main Menu",
-        badge: "Screenshot",
-        desc: "The main menu, with buttons for playing, the shop, credits, and exiting.",
-        tools: ["Unity", "C#"],
-        thumb: "assets/game/mainmenu-thumb.png",
-        image: "assets/game/mainmenu.png"
-      },
-      {
-        title: "Garage",
-        badge: "Screenshot",
-        desc: "The garage, where you browse locked motorbikes and unlock new ones with the coins you've earned.",
-        tools: ["Unity", "C#"],
-        thumb: "assets/game/shopmenu-thumb.png",
-        image: "assets/game/shopmenu.png"
       }
     ]
   },
@@ -131,7 +131,12 @@ if (folderRow && explorer && viewer) {
   const vwPrev = document.getElementById("vw-prev");
   const vwNext = document.getElementById("vw-next");
   const vwClose = document.getElementById("vw-close");
-  let cur = 0, curItem = 0, opener = null, fileOpener = null;
+  const vwCap = document.getElementById("vw-cap");
+  const vwCount = document.getElementById("vw-count");
+  const vwGalWrap = document.getElementById("vw-gal-wrap");
+  const vwStrip = document.getElementById("vw-strip");
+  const vwShotDesc = document.getElementById("vw-shotdesc");
+  let cur = 0, curItem = 0, shot = 0, opener = null, fileOpener = null;
 
   const lockScroll = () => document.documentElement.classList.toggle("modal-open", !explorer.hidden || !viewer.hidden);
   const show = (box) => { box.hidden = false; lockScroll(); requestAnimationFrame(() => box.classList.add("open")); };
@@ -170,6 +175,7 @@ if (folderRow && explorer && viewer) {
       file.style.setProperty("--n", n);
       file.setAttribute("aria-label", `View ${it.title}`);
       const th = el("span", "file-thumb skeleton");   // skeleton shimmer sampai gambar siap
+      if (it.ratio) th.style.setProperty("--ratio", it.ratio);
       const img = new Image();
       img.alt = it.title; img.decoding = "async";
       img.onload = () => { th.appendChild(img); th.classList.remove("skeleton"); };
@@ -191,17 +197,32 @@ if (folderRow && explorer && viewer) {
   exClose.addEventListener("click", closeExplorer);
   explorer.addEventListener("click", (e) => { if (e.target === explorer) closeExplorer(); });
 
-  // ----- popup detail karya -----
-  const openViewer = (n, from) => {
-    if (from) fileOpener = from;
-    curItem = n;
-    const it = folders[cur].items[n];
+  // ----- popup detail karya (bisa berupa galeri screenshot dan GIF) -----
+  const shotsOf = (it) => (it.gallery && it.gallery.length ? it.gallery : null);
+
+  const renderShot = () => {                       // tampilkan gambar ke-"shot" dari karya yang sedang dibuka
+    const it = folders[cur].items[curItem];
+    const shots = shotsOf(it);
+    const sh = shots ? shots[shot] : { src: it.image };
     vwBox.classList.add("skeleton");
     vwImg.onload = () => vwBox.classList.remove("skeleton");
     vwImg.onerror = () => vwBox.classList.remove("skeleton");
-    vwImg.alt = it.title;
-    vwImg.src = it.image;
+    vwImg.alt = sh.caption ? `${it.title}: ${sh.caption}` : it.title;
+    vwImg.src = sh.src;
     if (vwImg.complete && vwImg.naturalWidth) vwBox.classList.remove("skeleton");
+    vwCap.textContent = sh.caption || "";
+    vwCount.textContent = shots && shots.length > 1 ? `${shot + 1} / ${shots.length}` : "";
+    vwShotDesc.textContent = sh.desc || "";
+    vwShotDesc.hidden = !sh.desc;
+    [...vwStrip.children].forEach((b, k) => b.classList.toggle("on", k === shot));
+  };
+
+  const openViewer = (n, from) => {
+    if (from) fileOpener = from;
+    curItem = n;
+    shot = 0;
+    const it = folders[cur].items[n];
+    const shots = shotsOf(it);
     vwBadge.textContent = it.badge || "";
     vwBadge.hidden = !it.badge;
     vwTitle.textContent = it.title;
@@ -216,10 +237,40 @@ if (folderRow && explorer && viewer) {
       a.href = href; a.target = "_blank"; a.rel = "noopener";
       vwLinks.appendChild(a);
     });
-    vwPrev.hidden = vwNext.hidden = folders[cur].items.length < 2;
+    const gallery = !!(shots && shots.length > 1);
+    vwStrip.textContent = "";                      // deretan gambar kecil di bawah deskripsi
+    vwGalWrap.hidden = !gallery;
+    if (gallery) shots.forEach((sh, k) => {
+      const b = el("button", "vw-thumb");
+      b.type = "button";
+      b.setAttribute("aria-label", `Show ${sh.caption || "image " + (k + 1)}`);
+      const im = new Image();
+      im.alt = ""; im.decoding = "async"; im.src = sh.thumb || sh.src;
+      b.appendChild(im);
+      b.addEventListener("click", () => { shot = k; renderShot(); });
+      vwStrip.appendChild(b);
+    });
+    renderShot();
+    vwPrev.hidden = vwNext.hidden = gallery ? false : folders[cur].items.length < 2;
     if (viewer.hidden) { show(viewer); setTimeout(() => vwClose.focus({ preventScroll: true }), 60); }
   };
-  const step = (d) => { const len = folders[cur].items.length; openViewer((curItem + d + len) % len); };
+
+  const step = (d) => {                            // panah: geser gambar di galeri, atau pindah karya kalau tidak ada galeri
+    const items = folders[cur].items;
+    const shots = shotsOf(items[curItem]);
+    if (shots && shots.length > 1) { shot = (shot + d + shots.length) % shots.length; renderShot(); return; }
+    openViewer((curItem + d + items.length) % items.length);
+  };
+
+  let swipeX = null;                               // geser jari atau mouse di atas gambar
+  vwBox.addEventListener("pointerdown", (e) => { swipeX = e.target.closest(".vw-nav") ? null : e.clientX; });
+  vwBox.addEventListener("pointerup", (e) => {
+    if (swipeX === null) return;
+    const dx = e.clientX - swipeX;
+    swipeX = null;
+    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+  });
+  vwBox.addEventListener("pointercancel", () => { swipeX = null; });
   const closeViewer = () => hide(viewer, () => { if (fileOpener && fileOpener.isConnected) fileOpener.focus({ preventScroll: true }); });
   vwPrev.addEventListener("click", () => step(-1));
   vwNext.addEventListener("click", () => step(1));
@@ -332,64 +383,97 @@ document.addEventListener("click", (e) => {
   setTimeout(() => dot.remove(), 600);
 });
 
-// Tumpukan foto: klik, geser, atau tombol panah untuk berganti (tiap tumpukan berjalan sendiri)
+// Tumpukan foto: kartu bergulir (kiri ke tengah, tengah ke kanan, kanan menyelinap ke belakang).
+// Klik, geser, atau tombol panah untuk berganti. Tiap tumpukan berjalan sendiri.
 document.querySelectorAll(".stack-group").forEach((group, n) => {
   const stack = group.querySelector(".photo-stack");
   const dotsBox = group.querySelector(".stack-dots");
   const cards = [...stack.querySelectorAll(".pcard")];
   const dots = cards.map(() => dotsBox.appendChild(document.createElement("i")));
-  let order = cards.slice();               // order[0] = foto paling depan
+  const roll = cards.length >= 3;                  // kurang dari 3 foto: tidak bergulir
+  // slot kartu: 0 kiri, 1 tengah, 2 kanan, 3 menyelinap ke belakang, 4 menunggu di sisi kiri (tampilannya diatur CSS)
+  const slotOf = (c) => +c.dataset.slot;
+  const setSlot = (c, s) => { c.dataset.slot = s; c.classList.toggle("top", s === 1); };
+  const find = (s) => cards.find((c) => slotOf(c) === s);
+  const queue = [];                                // kartu yang menunggu giliran masuk dari kiri
   let busy = false, drag = false, moved = false, sx = 0, dx = 0;
 
-  const layout = () => {
-    order.forEach((c, i) => {
-      c.style.setProperty("--i", i);
-      c.classList.toggle("top", i === 0);
-      c.style.setProperty("--m", i === 0 ? 0 : 1);   // 0 = kartu depan (tengah), 1 = kartu samping
-      c.style.setProperty("--s", i === 2 ? -1 : 1);  // kartu ke-2 mengintip di kanan, kartu ke-3 di kiri, sisanya bersembunyi di belakang kartu kanan
-      c.style.transition = "";
-      c.style.transform = "";
-    });
-    dots.forEach((d, k) => d.classList.toggle("on", cards[k] === order[0]));
-  };
-  layout();
+  const showDots = () => dots.forEach((d, k) => d.classList.toggle("on", slotOf(cards[k]) === 1));
+  cards.forEach((c, k) => {                        // susunan awal: foto pertama di tengah, kedua di kiri, terakhir di kanan
+    const s = k === 0 ? 1 : k === 1 ? 0 : k === cards.length - 1 ? 2 : 4;
+    setSlot(c, s);
+    if (s === 4) queue.push(c);
+  });
+  showDots();
 
-  const send = (dir) => {                  // foto depan terbang keluar, lalu pindah ke belakang
-    if (busy || order.length < 2) return;
-    busy = true;
-    const top = order[0];
-    top.style.transition = "transform .28s ease-out";
-    top.style.transform = `translateX(${dir * 62}%) rotate(${dir * 9}deg)`;   // keluar sedikit ke samping
-    setTimeout(() => { order.push(order.shift()); layout(); busy = false; }, 280);   // lalu menyelip ke belakang tumpukan
+  const jump = (c, s) => {                         // pindah slot tanpa animasi (hanya untuk kartu yang sedang tak terlihat)
+    c.style.transition = "none";
+    setSlot(c, s);
+    void c.offsetWidth;
+    c.style.transition = "";
   };
-  const back = () => { if (busy || order.length < 2) return; order.unshift(order.pop()); layout(); };
+
+  const next = () => {                             // kiri ke tengah, tengah ke kanan, kanan ke belakang, kartu baru masuk dari kiri
+    if (busy || !roll) return;
+    busy = true;
+    const L = find(0), C = find(1), R = find(2);
+    const enter = queue.shift();
+    if (L) setSlot(L, 1);
+    if (C) setSlot(C, 2);
+    if (R) setSlot(R, 3);
+    if (enter) setSlot(enter, 0);
+    showDots();
+    setTimeout(() => {
+      if (R) { jump(R, 4); queue.push(R); }        // yang sudah di belakang pindah diam-diam ke antrean kiri
+      if (!enter && R) { const nx = queue.shift(); requestAnimationFrame(() => setSlot(nx, 0)); }   // hanya 3 foto: masuk menyusul
+      busy = false;
+    }, 760);
+  };
+
+  const prev = () => {                             // kebalikannya: tengah ke kiri, kanan ke tengah, kartu baru muncul dari belakang kanan
+    if (busy || !roll) return;
+    if (!queue.length) { next(); return; }
+    busy = true;
+    const L = find(0), C = find(1), R = find(2);
+    const enter = queue.pop();
+    jump(enter, 3);
+    if (L) setSlot(L, 4);
+    if (C) setSlot(C, 0);
+    if (R) setSlot(R, 1);
+    setSlot(enter, 2);
+    showDots();
+    setTimeout(() => { if (L) queue.unshift(L); busy = false; }, 760);
+  };
 
   stack.addEventListener("pointerdown", (e) => {
-    if (busy || e.target.closest(".pcard") !== order[0]) return;
+    const top = find(1);
+    if (busy || !top || e.target.closest(".pcard") !== top) return;
     drag = true; moved = false; sx = e.clientX; dx = 0;
-    order[0].classList.add("dragging");
+    top.classList.add("dragging");
     stack.setPointerCapture(e.pointerId);
   });
   stack.addEventListener("pointermove", (e) => {
     if (!drag) return;
     dx = e.clientX - sx;
     if (Math.abs(dx) > 5) moved = true;
-    order[0].style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+    const lim = Math.max(-70, Math.min(70, dx));   // kartu hanya ikut bergeser sedikit, tidak menutupi teks
+    find(1).style.transform = `translateX(${lim}px) rotate(${lim / 14}deg)`;
   });
   const end = () => {
     if (!drag) return;
     drag = false;
-    order[0].classList.remove("dragging");
-    if (Math.abs(dx) > 80) send(dx > 0 ? 1 : -1);
-    else if (!moved) send(1);              // klik biasa
-    else order[0].style.transform = "";    // geser kurang jauh: balik lagi
+    const top = find(1);
+    top.classList.remove("dragging");
+    top.style.transform = "";
+    if (Math.abs(dx) > 80) { if (dx > 0) next(); else prev(); }   // geser ke kanan = maju, ke kiri = mundur
+    else if (!moved) next();                                       // klik biasa
     start();
   };
   stack.addEventListener("pointerup", end);
   stack.addEventListener("pointercancel", end);
   stack.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") send(1);
-    if (e.key === "ArrowLeft") back();
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
     start();
   });
 
@@ -398,12 +482,12 @@ document.querySelectorAll(".stack-group").forEach((group, n) => {
   let timer = null, visible = false, hover = false;
   const start = () => {
     clearInterval(timer);
-    if (autoplay) timer = setInterval(() => { if (visible && !hover && !drag && !document.hidden) send(1); }, 4000);
+    if (autoplay) timer = setInterval(() => { if (visible && !hover && !drag && !document.hidden) next(); }, 4000);
   };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.3 }).observe(stack);
   stack.addEventListener("pointerenter", () => { hover = true; });
   stack.addEventListener("pointerleave", () => { hover = false; });
-  setTimeout(start, n * 2000);             // tumpukan kedua mulai telat 2 detik supaya tidak serempak
+  setTimeout(start, n * 2000);                     // tumpukan kedua mulai telat 2 detik supaya tidak serempak
 });
 
 // Tombol salin email (alamatnya diambil otomatis dari tombol Kirim email)
@@ -473,7 +557,7 @@ const achievements = [
   {
     badge: "Finalist",
     title: "Artificial Intelligence Competition of Revolution",
-    org: "Informatics Students, Faculty of Engineering, Untan (in person)",
+    org: "Informers Ideathon : AI Core 2026, Universitas Tanjungpura",
     date: "10 October 2026",
     thumb: "assets/sertifikat/aicor-thumb.jpg",   // gambar kecil di kartu
     image: "assets/sertifikat/aicor.jpg"          // gambar besar saat diklik
