@@ -657,3 +657,263 @@ document.querySelectorAll(".path-scroll").forEach((box) => {
   if (document.fonts) document.fonts.ready.then(fit);
   fit();
 });
+
+
+// ===== PORTFOLIO SHOWCASE: pill Projects / Certificates / Tech Stack =====
+const tabsBox = document.getElementById("tabs");
+const tabPanels = document.getElementById("tab-panels");
+if (tabsBox && tabPanels) {
+  const tabs = [...tabsBox.querySelectorAll('[role="tab"]')];
+  const glider = tabsBox.querySelector(".tab-glider");
+  const panelOf = (t) => document.getElementById(t.getAttribute("aria-controls"));
+  let current = tabs.find((t) => t.classList.contains("on")) || tabs[0];
+  let settle = null;
+
+  const moveGlider = () => {                       // pil biru bergeser ke tab yang aktif
+    glider.style.width = current.offsetWidth + "px";
+    glider.style.transform = `translateX(${current.offsetLeft}px)`;
+  };
+  const selectTab = (tab, focus) => {
+    if (!tab) return;
+    if (tab === current) { if (focus) tab.focus(); return; }
+    tabPanels.style.height = tabPanels.offsetHeight + "px";   // kunci tinggi lama, lalu animasikan ke tinggi panel baru
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle("on", on);
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      panelOf(t).classList.toggle("on", on);
+    });
+    current = tab;
+    moveGlider();
+    const to = panelOf(tab).offsetHeight;
+    requestAnimationFrame(() => { tabPanels.style.height = to + "px"; });
+    clearTimeout(settle);
+    settle = setTimeout(() => { tabPanels.style.height = ""; }, 520);
+    if (focus) tab.focus();
+  };
+
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => selectTab(t));
+    t.addEventListener("keydown", (e) => {          // panah kiri/kanan berpindah tab
+      if (e.key === "ArrowRight") { e.preventDefault(); selectTab(tabs[(i + 1) % tabs.length], true); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); selectTab(tabs[(i - 1 + tabs.length) % tabs.length], true); }
+    });
+  });
+  document.querySelectorAll("[data-open-tab]").forEach((a) =>   // contoh: tombol "View projects" di hero
+    a.addEventListener("click", () => selectTab(document.getElementById("tab-" + a.dataset.openTab))));
+  addEventListener("resize", moveGlider);
+  addEventListener("load", moveGlider);
+  if (document.fonts) document.fonts.ready.then(moveGlider);
+  moveGlider();
+}
+
+// ===== BACKGROUND GRID: garis di dekat kursor menyala =====
+const gridGlow = document.getElementById("grid-glow");
+if (gridGlow && matchMedia("(hover: hover)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const HALF = 240;                                 // setengah ukuran kotak cahaya (harus sama dengan CSS)
+  let gx = 0, gy = 0, queued = false;
+  const paint = () => {
+    queued = false;
+    gridGlow.style.transform = `translate3d(${gx - HALF}px, ${gy - HALF}px, 0)`;
+    gridGlow.style.backgroundPosition = `${HALF - gx}px ${HALF - gy}px`;   // pola garis tetap sejajar dengan grid di latar
+  };
+  addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    gx = Math.round(e.clientX); gy = Math.round(e.clientY);
+    gridGlow.classList.add("on");
+    if (!queued) { queued = true; requestAnimationFrame(paint); }
+  }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => gridGlow.classList.remove("on"));
+}
+
+// ===== HERO: efek cairan (liquid) di portrait =====
+// Kursor (atau jari di HP) yang menyentuh foto meninggalkan jejak cairan, dan di dalam cairan itu muncul gambar kedua.
+// Gambar kedua: taruh PNG transparan di assets/portrait-2.png (ukuran sama dengan portrait.png).
+// Kalau file itu belum ada, versi pixel art dibuat otomatis dari portrait.png.
+const fxWrap = document.getElementById("portrait-wrap");
+const fxCanvas = document.getElementById("portrait-fx");
+if (fxWrap && fxCanvas && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const baseImg = fxWrap.querySelector(".portrait");
+  const ctx = fxCanvas.getContext("2d");
+  const mask = document.createElement("canvas");
+  const mctx = mask.getContext("2d", { willReadFrequently: true });
+  const MS = 0.5;                                   // mask dibuat setengah ukuran supaya ringan
+  const LIFE = 1000;                                // lama satu tetes menyusut (milidetik). Makin besar, makin lama cairannya bertahan
+  const sprite = document.createElement("canvas");  // bulatan lembut yang dipakai ulang untuk semua tetes
+  sprite.width = sprite.height = 128;
+  {
+    const g = sprite.getContext("2d");
+    const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gr.addColorStop(0, "rgba(255,255,255,1)");
+    gr.addColorStop(0.55, "rgba(255,255,255,.5)");
+    gr.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+  }
+  const cut = new Uint8ClampedArray(256);           // tepi lembut diubah jadi tepi cairan yang tegas (tetes yang berdekatan menyatu)
+  for (let a = 0; a < 256; a++) cut[a] = Math.max(0, Math.min(1, (a / 255 - 0.46) / 0.1)) * 255;
+
+  let alt = null, altPixel = false, W = 0, H = 0, R = 80, running = false, last = 0, demo = null;
+  const pts = [];                                   // jejak tetes: { x, y, r, age, ph }
+  const head = { x: 0, y: 0, tx: 0, ty: 0, lx: 0, ly: 0, r: 0, on: false };
+
+  // --- versi pixel art otomatis (dipakai kalau assets/portrait-2.png belum ada) ---
+  const pixelArt = (img) => {
+    const w = 96, h = Math.max(1, Math.round(w * img.naturalHeight / img.naturalWidth));
+    const c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    const x = c.getContext("2d", { willReadFrequently: true });
+    x.drawImage(img, 0, 0, w, h);
+    const id = x.getImageData(0, 0, w, h), d = id.data;
+    const lum = new Float32Array(w * h), hist = new Uint32Array(256);
+    let n = 0;
+    for (let p = 0; p < w * h; p++) {
+      const i = p * 4, v = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      lum[p] = v;
+      if (d[i + 3] > 128) { hist[v | 0]++; n++; }
+    }
+    let lo = 0, hi = 255, acc = 0;                  // rentangkan kontras supaya foto gelap tetap punya 4 warna
+    for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= n * 0.03) { lo = v; break; } }
+    acc = 0;
+    for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= n * 0.03) { hi = v; break; } }
+    if (hi - lo < 16) hi = lo + 16;
+    const pal = [[8, 16, 52], [44, 96, 240], [34, 199, 230], [255, 255, 255]];   // navy, biru, cyan, putih (warna web ini)
+    const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+    for (let y = 0; y < h; y++) for (let xx = 0; xx < w; xx++) {
+      const p = y * w + xx, i = p * 4;
+      if (d[i + 3] < 128) { d[i + 3] = 0; continue; }
+      const t = Math.pow(Math.max(0, Math.min(1, (lum[p] - lo) / (hi - lo))), 0.62);   // angkat nada tengah supaya foto gelap tetap terbaca
+      const lvl = Math.max(0, Math.min(3, Math.floor((t + (bayer[(y & 3) * 4 + (xx & 3)] / 16 - 0.5) * 0.28) * 4)));
+      d[i] = pal[lvl][0]; d[i + 1] = pal[lvl][1]; d[i + 2] = pal[lvl][2]; d[i + 3] = 255;
+    }
+    x.putImageData(id, 0, 0);
+    return c;
+  };
+  const probe = new Image();
+  probe.onload = () => { alt = probe; altPixel = false; if (head.on) kick(); };
+  probe.onerror = () => {
+    const make = () => { try { alt = pixelArt(baseImg); altPixel = true; if (head.on) kick(); } catch (err) { alt = null; } };
+    if (baseImg.complete && baseImg.naturalWidth) make(); else baseImg.addEventListener("load", make, { once: true });
+  };
+  probe.src = "assets/portrait-2.png";
+
+  const resize = () => {
+    const w = fxWrap.offsetWidth, h = fxWrap.offsetHeight;
+    if (!w || !h) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = w; H = h; R = w * 0.19;
+    fxCanvas.width = Math.round(w * dpr); fxCanvas.height = Math.round(h * dpr);
+    mask.width = Math.max(8, Math.round(w * MS)); mask.height = Math.max(8, Math.round(h * MS));
+  };
+  new ResizeObserver(resize).observe(fxWrap);
+  resize();
+
+  const loop = (now) => {
+    const dt = Math.min(50, now - last || 16);
+    last = now;
+
+    if (demo) {                                     // sapuan pembuka satu kali, supaya pengunjung tahu fotonya bisa disentuh
+      const t = (now - demo.t0) / 1900;
+      if (t >= 1) { demo = null; head.on = false; }
+      else {
+        head.tx = W * (0.22 + 0.56 * t);
+        head.ty = H * (0.30 + 0.18 * t + 0.2 * Math.sin(t * Math.PI * 1.6));
+        if (!head.on) { head.on = true; head.x = head.lx = head.tx; head.y = head.ly = head.ty; }
+      }
+    }
+
+    if (head.on) {
+      head.x += (head.tx - head.x) * 0.32;
+      head.y += (head.ty - head.y) * 0.32;
+      head.r += (R * 0.9 - head.r) * 0.2;
+      const step = R * 0.14, dist = Math.hypot(head.x - head.lx, head.y - head.ly);
+      if (dist > step) {                            // tiap beberapa piksel, tinggalkan satu tetes
+        const n = Math.min(12, Math.floor(dist / step));
+        for (let k = 1; k <= n; k++) {
+          const f = k / n;
+          pts.push({ x: head.lx + (head.x - head.lx) * f, y: head.ly + (head.y - head.ly) * f, r: R * 0.7, age: 0, ph: Math.random() * 6.28 });
+        }
+        head.lx = head.x; head.ly = head.y;
+        if (pts.length > 160) pts.splice(0, pts.length - 160);
+      }
+    } else head.r *= 0.88;
+
+    for (let i = pts.length - 1; i >= 0; i--) {
+      pts[i].age += dt / LIFE;
+      if (pts[i].age >= 1) pts.splice(i, 1);
+    }
+
+    if (alt && (pts.length || head.r > 1)) {
+      mctx.globalCompositeOperation = "source-over";
+      mctx.clearRect(0, 0, mask.width, mask.height);
+      mctx.globalCompositeOperation = "lighter";    // tetes dijumlahkan, jadi yang berdekatan menyatu seperti cairan
+      for (const p of pts) {
+        const rr = p.r * Math.pow(1 - p.age, 0.8) * (1 + 0.1 * Math.sin(now / 180 + p.ph)) * MS;
+        if (rr < 0.6) continue;
+        mctx.drawImage(sprite, p.x * MS - rr, p.y * MS - rr, rr * 2, rr * 2);
+      }
+      if (head.r > 1) { const rr = head.r * MS; mctx.drawImage(sprite, head.x * MS - rr, head.y * MS - rr, rr * 2, rr * 2); }
+      mctx.globalCompositeOperation = "source-over";
+      const id = mctx.getImageData(0, 0, mask.width, mask.height), d = id.data;
+      for (let i = 3; i < d.length; i += 4) d[i] = cut[d[i]];
+      mctx.putImageData(id, 0, 0);
+
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(mask, 0, 0, fxCanvas.width, fxCanvas.height);
+      ctx.globalCompositeOperation = "source-in";   // gambar kedua hanya terlihat di dalam cairan
+      ctx.imageSmoothingEnabled = !altPixel;
+      ctx.drawImage(alt, 0, 0, fxCanvas.width, fxCanvas.height);
+      ctx.globalCompositeOperation = "source-over";
+    }
+
+    if (head.on || pts.length || head.r > 1 || demo) requestAnimationFrame(loop);
+    else { running = false; ctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height); }
+  };
+  function kick() {
+    if (running || !alt) return;
+    running = true; last = 0;
+    requestAnimationFrame(loop);
+  }
+
+  const toLocal = (e) => {                          // posisi kursor di dalam foto (tetap benar walau foto sedang beranimasi)
+    const r = fxWrap.getBoundingClientRect();
+    return [(e.clientX - r.left) * (W / (r.width || 1)), (e.clientY - r.top) * (H / (r.height || 1))];
+  };
+  const enter = (e) => {
+    demo = null;
+    const [x, y] = toLocal(e);
+    head.x = head.tx = head.lx = x; head.y = head.ty = head.ly = y;
+    head.on = true;
+    kick();
+  };
+  const move = (e) => {
+    if (!head.on) { enter(e); return; }
+    [head.tx, head.ty] = toLocal(e);
+  };
+  const leave = () => { head.on = false; };
+  const burst = () => {                             // klik atau ketuk: cipratan
+    for (let k = 0; k < 7; k++) {
+      const a = (k / 7) * 6.283;
+      pts.push({ x: head.x + Math.cos(a) * R * 0.45, y: head.y + Math.sin(a) * R * 0.45, r: R * 0.85, age: 0, ph: Math.random() * 6.28 });
+    }
+    kick();
+  };
+  fxWrap.addEventListener("pointerenter", enter);
+  fxWrap.addEventListener("pointermove", move);
+  fxWrap.addEventListener("pointerleave", leave);
+  fxWrap.addEventListener("pointerdown", (e) => { enter(e); burst(); });
+  fxWrap.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") leave(); });
+  fxWrap.addEventListener("pointercancel", leave);
+
+  let tries = 0;                                    // sapuan pembuka: tunggu gambar kedua siap dan hero masih terlihat
+  const tryDemo = () => {
+    if (head.on || demo) return;
+    if (scrollY > innerHeight * 0.4) return;
+    if (!alt || !W) { if (++tries < 8) setTimeout(tryDemo, 600); return; }
+    demo = { t0: performance.now() };
+    kick();
+  };
+  setTimeout(tryDemo, 2600);
+}

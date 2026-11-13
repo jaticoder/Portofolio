@@ -24,14 +24,14 @@
   </div>
   <script>setTimeout(function(){var p=document.getElementById("preloader");if(p)p.classList.add("done")},6000)</script>
   <div class="bg" aria-hidden="true"></div>
+  <div class="grid-glow" id="grid-glow" aria-hidden="true"></div>
   <div class="progress" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="logo" href="#home">PORTFOLIO</a>
     <nav>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#achievements">Achievements</a>
+      <a href="#portfolio">Portfolio</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -46,7 +46,12 @@
         <p class="role">Game Developer</p>
       </div>
 
-      <img class="portrait" fetchpriority="high" decoding="async" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
+      <!-- Efek cairan: kursor/jari di atas foto membuka gambar kedua (lihat bagian "HERO: efek cairan" di script.js).
+           Mau pakai fotomu sendiri? Taruh PNG transparan di assets/portrait-2.png (ukuran sama dengan portrait.png). -->
+      <div class="portrait-wrap" id="portrait-wrap">
+        <img class="portrait" fetchpriority="high" decoding="async" src="assets/portrait.png" alt="Jati Wisnu" onerror="this.style.display='none'">
+        <canvas class="portrait-fx" id="portrait-fx" aria-hidden="true"></canvas>
+      </div>
 
       <div class="hero-right">
         <p>It started with loving to play games, and now I'm actually more interested in making them myself. As an Informatics student, I'm learning and experimenting a lot in game development.</p>
@@ -57,7 +62,7 @@
           <li><a href="https://steamcommunity.com/id/advegation" target="_blank" rel="noopener" aria-label="Steam" title="Steam"><img src="assets/icons/steam.png" alt="Steam"></a></li>
           <li><a href="https://jatiw-studio.itch.io/" target="_blank" rel="noopener" aria-label="itch.io" title="itch.io"><img src="assets/icons/itchio.png" alt="itch.io"></a></li>
         </ul>
-        <a class="btn btn-solid" href="#projects">View projects</a>
+        <a class="btn btn-solid" href="#portfolio" data-open-tab="projects">View projects</a>
       </div>
     </section>
 
@@ -78,17 +83,6 @@
               <span class="stack-dots" aria-hidden="true"></span>
             </div>
           </div>
-          <div class="stack-group">
-            <div class="photo-stack" tabindex="0" aria-label="Photos of Jati Wisnu, bottom stack. Changes automatically. Click, swipe, or use the arrow keys to switch.">
-              <figure class="pcard" data-file="assets/galeri-1.jpg"><img loading="lazy" decoding="async" src="assets/galeri-1.jpg" alt="Photo of Jati Wisnu, bottom stack" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-2.jpg"><img loading="lazy" decoding="async" src="assets/galeri-2.jpg" alt="Photo of Jati Wisnu, bottom stack" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-3.jpg"><img loading="lazy" decoding="async" src="assets/galeri-3.jpg" alt="Photo of Jati Wisnu, bottom stack" onerror="this.parentNode.classList.add('empty')"></figure>
-              <figure class="pcard" data-file="assets/galeri-4.jpg"><img loading="lazy" decoding="async" src="assets/galeri-4.jpg" alt="Photo of Jati Wisnu, bottom stack" onerror="this.parentNode.classList.add('empty')"></figure>
-            </div>
-            <div class="stack-nav">
-              <span class="stack-dots" aria-hidden="true"></span>
-            </div>
-          </div>
         </div>
         <div class="about-text">
           <h2>So, <span class="grad">who am I?</span></h2>
@@ -100,25 +94,6 @@
             <li class="has-logo" title="Unity"><span class="logo-box"><img src="assets/tech/unity.png" alt="Unity"></span><div class="stat-text"><span>Main engine</span><b>Unity Engine</b></div></li>
             <li class="has-logo" title="C#"><span class="logo-box"><img src="assets/tech/csharp.png" alt="C#"></span><div class="stat-text"><span>Main language</span><b>C#</b></div></li>
           </ul>
-          <p class="stack-title">Tools</p>
-          <ul class="stack-list">
-            <li><span class="logo-box"><img src="assets/tech/androidstudio.png" alt=""></span>Android Studio</li>
-            <li><span class="logo-box" data-fallback="VS" style="--c:#0a7acc"><img src="assets/tools/vscode.png" alt="" onerror="this.remove()"></span>VS Code</li>
-            <li><span class="logo-box" data-fallback="AG" style="--c:#3b82f6"><img src="assets/tools/antigravity.png" alt="" onerror="this.remove()"></span>Antigravity</li>
-            <li><span class="logo-box" data-fallback="Ca" style="--c:#00a3ad"><img src="assets/tools/canva.png" alt="" onerror="this.remove()"></span>Canva</li>
-            <li><span class="logo-box" data-fallback="Pa" style="--c:#b3139b"><img src="assets/tools/picsart.png" alt="" onerror="this.remove()"></span>Picsart</li>
-            <li><span class="logo-box" data-fallback="PL" style="--c:#e8590c"><img src="assets/tools/pixellab.png" alt="" onerror="this.remove()"></span>PixelLab</li>
-            <li><span class="logo-box" data-fallback="AM" style="--c:#0a84c6"><img src="assets/tools/alightmotion.png" alt="" onerror="this.remove()"></span>Alight Motion</li>
-            <li><span class="logo-box" data-fallback="CC" style="--c:#222222"><img src="assets/tools/capcut.png" alt="" onerror="this.remove()"></span>CapCut</li>
-          </ul>
-          <p class="stack-title">Languages</p>
-          <ul class="stack-list">
-            <li><span class="logo-box"><img src="assets/tech/cpp.png" alt=""></span>C++</li>
-            <li><span class="logo-box"><img src="assets/tech/kotlin.png" alt=""></span>Kotlin</li>
-            <li><span class="logo-box"><img src="assets/tech/python.png" alt=""></span>Python</li>
-            <li><span class="logo-box"><img src="assets/tech/javascript.png" alt=""></span>JavaScript</li>
-            <li><span class="logo-box"><img src="assets/tech/nodejs.png" alt=""></span>Node.js</li>
-          </ul>
         </div>
       </div>
 
@@ -129,11 +104,13 @@
         </h3>
         <div class="path-scroll">
         <ol>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/untan.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>Universitas Tanjungpura</b><time>2026 - Present</time></div>
             <p class="sub">Informatics, Semester 1</p>
           </li>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/sman3-sanggau.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>SMAN 3 Sanggau</b><time>2021 - 2024</time></div>
             <p class="sub">Social Sciences (IPS)</p>
           </li>
@@ -148,34 +125,40 @@
         </h3>
         <div class="path-scroll">
         <ol>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/jatiw-studio.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>Solo Game Developer</b><time>2026 - Present</time></div>
             <p class="sub">Developing games with a focus on gameplay, mechanics, and creative design.</p>
             <p class="tags"><span>Game Development</span><span>Unity</span><span>C#</span></p>
           </li>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/sushi-bento.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>Kitchen Staff</b><time>Oct 2025 - Feb 2026</time></div>
             <p class="sub">Sushi Bento</p>
             <p class="tags"><span>Japanese Restaurant</span></p>
           </li>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo bleed"><img src="assets/logos/mie-rantau.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>Head of Logistics</b><time>Jun - Sep 2024</time></div>
             <p class="sub">Mie Rantau</p>
             <p class="tags"><span>Noodle Restaurant</span></p>
           </li>
-          <li>
+          <li class="has-logo">
+            <span class="org-logo bleed"><img src="assets/logos/mie-rantau.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
             <div class="row"><b>Kitchen and Cashier Staff</b><time>Apr - May 2024</time></div>
             <p class="sub">Mie Rantau</p>
             <p class="tags"><span>Noodle Restaurant</span></p>
           </li>
-          <li>
-            <div class="row"><b>OSIS SMAN 3 Sanggau</b><time>Oct 2022 - Oct 2023</time></div>
-            <p class="sub">Head of the Arts Appreciation and Creation Division</p>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/sman3-sanggau.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
+            <div class="row"><b>Head of the Arts Appreciation and Creation Division</b><time>Oct 2022 - Oct 2023</time></div>
+            <p class="sub">OSIS SMAN 3 Sanggau</p>
             <p class="tags"><span>Division Leader</span><span>School Organization</span></p>
           </li>
-          <li>
-            <div class="row"><b>OSIS SMAN 3 Sanggau</b><time>Oct 2021 - Oct 2022</time></div>
-            <p class="sub">Member of the Arts Appreciation and Creation Division</p>
+          <li class="has-logo">
+            <span class="org-logo"><img src="assets/logos/sman3-sanggau.png" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>
+            <div class="row"><b>Member of the Arts Appreciation and Creation Division</b><time>Oct 2021 - Oct 2022</time></div>
+            <p class="sub">OSIS SMAN 3 Sanggau</p>
             <p class="tags"><span>Member of Division</span><span>School Organization</span></p>
           </li>
         </ol>
@@ -183,18 +166,65 @@
       </div>
     </section>
 
-    <!-- PROJECT: folder ala Windows Explorer, dibuat otomatis oleh script.js (daftar ada di bagian atas script.js) -->
-    <section class="section" id="projects">
-      <h2>Projects</h2>
-      <p class="lead">Click a folder to open it.</p>
-      <div class="folders" id="folder-row"></div>
-    </section>
+    <!-- PORTFOLIO SHOWCASE: tiga pill. Isi Projects dan Certificates dibuat otomatis oleh script.js (daftarnya ada di bagian atas script.js dan di bagian PRESTASI) -->
+    <section class="section showcase" id="portfolio">
+      <h2>Portfolio Showcase</h2>
+      <p class="lead">Explore my projects, certificates, and the tools I work with.</p>
 
-    <!-- PRESTASI: kartu dibuat otomatis oleh script.js (daftar ada di bagian atas "PRESTASI" di script.js) -->
-    <section class="section" id="achievements">
-      <h2>Achievements</h2>
-      <p class="lead">Competitions and events I've taken part in. Click a card to see the certificate.</p>
-      <div class="grid wide" id="achievement-grid"></div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Portfolio sections">
+        <span class="tab-glider" aria-hidden="true"></span>
+        <button class="tab on" type="button" role="tab" id="tab-projects" aria-controls="panel-projects" aria-selected="true">Projects</button>
+        <button class="tab" type="button" role="tab" id="tab-certificates" aria-controls="panel-certificates" aria-selected="false" tabindex="-1">Certificates</button>
+        <button class="tab" type="button" role="tab" id="tab-stack" aria-controls="panel-stack" aria-selected="false" tabindex="-1">Tech Stack</button>
+      </div>
+
+      <div class="tab-panels" id="tab-panels">
+        <!-- Projects: folder ala Windows Explorer -->
+        <div class="tab-panel on" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+          <p class="panel-hint">Click a folder to open it.</p>
+          <div class="folders" id="folder-row"></div>
+        </div>
+
+        <!-- Certificates -->
+        <div class="tab-panel" id="panel-certificates" role="tabpanel" aria-labelledby="tab-certificates">
+          <p class="panel-hint">Competitions and events I've taken part in. Click a card to see the certificate.</p>
+          <div class="grid wide" id="achievement-grid"></div>
+        </div>
+
+        <!-- Tech Stack: mau tambah? Salin satu baris <li>, ganti nama dan logonya -->
+        <div class="tab-panel" id="panel-stack" role="tabpanel" aria-labelledby="tab-stack">
+          <p class="stack-title">Programming languages</p>
+          <ul class="tech-grid">
+            <li><span class="logo-box"><img src="assets/tech/csharp.png" alt=""></span><b>C#</b><small>Main language</small></li>
+            <li><span class="logo-box"><img src="assets/tech/cpp.png" alt=""></span><b>C++</b></li>
+            <li><span class="logo-box"><img src="assets/tech/kotlin.png" alt=""></span><b>Kotlin</b></li>
+            <li><span class="logo-box"><img src="assets/tech/python.png" alt=""></span><b>Python</b></li>
+            <li><span class="logo-box"><img src="assets/tech/javascript.png" alt=""></span><b>JavaScript</b></li>
+          </ul>
+          <p class="stack-title second">Game engine and runtime</p>
+          <ul class="tech-grid">
+            <li><span class="logo-box"><img src="assets/tech/unity.png" alt=""></span><b>Unity</b><small>Main engine</small></li>
+            <li><span class="logo-box"><img src="assets/tech/nodejs.png" alt=""></span><b>Node.js</b></li>
+          </ul>
+          <p class="stack-title second">Code editors and IDEs</p>
+          <ul class="tech-grid">
+            <li><span class="logo-box"><img src="assets/tech/androidstudio.png" alt=""></span><b>Android Studio</b></li>
+            <li><span class="logo-box" data-fallback="VS" style="--c:#0a7acc"><img src="assets/tools/vscode.png" alt="" onerror="this.remove()"></span><b>VS Code</b></li>
+            <li><span class="logo-box" data-fallback="AG" style="--c:#3b82f6"><img src="assets/tools/antigravity.png" alt="" onerror="this.remove()"></span><b>Antigravity</b></li>
+          </ul>
+          <p class="stack-title second">Design and pixel art</p>
+          <ul class="tech-grid">
+            <li><span class="logo-box" data-fallback="Ca" style="--c:#00a3ad"><img src="assets/tools/canva.png" alt="" onerror="this.remove()"></span><b>Canva</b></li>
+            <li><span class="logo-box" data-fallback="Pa" style="--c:#b3139b"><img src="assets/tools/picsart.png" alt="" onerror="this.remove()"></span><b>Picsart</b></li>
+            <li><span class="logo-box" data-fallback="PL" style="--c:#e8590c"><img src="assets/tools/pixellab.png" alt="" onerror="this.remove()"></span><b>PixelLab</b></li>
+          </ul>
+          <p class="stack-title second">Video editing</p>
+          <ul class="tech-grid">
+            <li><span class="logo-box" data-fallback="AM" style="--c:#0a84c6"><img src="assets/tools/alightmotion.png" alt="" onerror="this.remove()"></span><b>Alight Motion</b></li>
+            <li><span class="logo-box" data-fallback="CC" style="--c:#222222"><img src="assets/tools/capcut.png" alt="" onerror="this.remove()"></span><b>CapCut</b></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- CONTACT -->

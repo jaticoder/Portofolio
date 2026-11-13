@@ -79,13 +79,17 @@ h1, h2, h3, .logo { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .role { color: var(--muted); font-size: 1.15rem; margin-top: 14px; }
-.portrait {
+.portrait-wrap {
   position: relative; z-index: 1;
-  width: clamp(220px, 28vw, 420px); height: auto;
+  width: clamp(220px, 28vw, 420px);
+  touch-action: pan-y;
   /* Bagian bawah tubuh memudar. Ubah angka 60% kalau mau mulai memudar lebih atas/bawah */
   -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
 }
+.portrait { display: block; width: 100%; height: auto; }
+/* Lapisan efek cairan (gambar kedua muncul di sini). Ubah angka .45 untuk terang-redupnya cahaya di tepi cairan */
+.portrait-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; filter: drop-shadow(0 0 10px rgba(34, 199, 230, .45)); }
 .hero-right p { font-size: 1.15rem; margin-bottom: 18px; max-width: 32ch; }
 .hero-right .btn { margin-top: 22px; }
 .chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -105,7 +109,7 @@ h1, h2, h3, .logo { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
 /* Satu animasi saat halaman dibuka */
 .hero-left { animation: slideR .8s both; }
 .hero-right { animation: slideL .8s .2s both; }
-.portrait { animation: pop .9s .1s both; }
+.portrait-wrap { animation: pop .9s .1s both; }
 @keyframes slideR { from { opacity: 0; transform: translateX(-50px); } }
 @keyframes slideL { from { opacity: 0; transform: translateX(50px); } }
 @keyframes pop { from { opacity: 0; transform: translateY(40px) scale(.97); } }
@@ -279,7 +283,7 @@ button.btn { font: inherit; font-weight: 600; cursor: pointer; }
 /* ===== HP ===== */
 @media (max-width: 800px) {
   .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; padding-top: 90px; min-height: 0; gap: 20px; }
-  .portrait { order: -1; width: min(72vw, 330px); }
+  .portrait-wrap { order: -1; width: min(72vw, 330px); }
   .bg-word { top: 22%; }
   .hero-right p { margin-inline: auto; }
   .chips, .social-icons { justify-content: center; }
@@ -332,7 +336,7 @@ button.btn { font: inherit; font-weight: 600; cursor: pointer; }
 /* animasi pembuka hero baru jalan setelah skeleton hilang */
 .preloader:not(.done) ~ main .hero-left,
 .preloader:not(.done) ~ main .hero-right,
-.preloader:not(.done) ~ main .portrait { animation-play-state: paused; }
+.preloader:not(.done) ~ main .portrait-wrap { animation-play-state: paused; }
 
 /* ===== PRESTASI ===== */
 .section > .lead { margin-bottom: 26px; }
@@ -587,3 +591,98 @@ html.modal-open { overflow: hidden; }
 .photo-stack .pcard[data-slot="3"] { transform: translate(6px, -10px) rotate(2deg) scale(.9); filter: brightness(.6); z-index: 0; opacity: 0; }    /* menyelinap ke belakang */
 .photo-stack .pcard[data-slot="4"] { transform: translate(-26px, -10px) rotate(-5deg) scale(.9); filter: brightness(.6); z-index: 0; opacity: 0; }  /* menunggu di sisi kiri */
 .photo-stack .pcard.dragging { transition: none; }
+
+
+/* ===== Cegah halaman melebar ke samping di HP (tulisan raksasa di belakang hero lebih lebar dari layar) ===== */
+html, body { overflow-x: clip; }
+
+/* ===== BACKGROUND GRID: garis kotak-kotak tipis, memudar ke tepi layar ===== */
+.bg::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  /* Ubah angka .065 untuk tebal-tipisnya garis, 44px untuk ukuran kotaknya */
+  background-image: linear-gradient(rgba(140, 175, 255, .065) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 175, 255, .065) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 35%, transparent 100%);
+}
+/* Garis yang menyala di sekitar kursor (digerakkan script.js, ukuran kotaknya harus sama dengan di atas) */
+.grid-glow {
+  position: fixed; left: 0; top: 0; z-index: -1; width: 480px; height: 480px; pointer-events: none; opacity: 0; will-change: transform;
+  background-image: linear-gradient(rgba(34, 199, 230, .36) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 199, 230, .36) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(circle closest-side, #000, transparent);
+  mask-image: radial-gradient(circle closest-side, #000, transparent);
+  transition: opacity .4s;
+}
+.grid-glow.on { opacity: 1; }
+
+/* ===== ABOUT: teks di tengah secara vertikal (Tools dan Languages pindah ke Tech Stack) ===== */
+.about-text { display: flex; flex-direction: column; justify-content: center; }
+
+/* ===== PORTFOLIO SHOWCASE: pill Projects / Certificates / Tech Stack ===== */
+.showcase { text-align: center; }
+.showcase .lead { margin: 0 auto 28px; }
+.tabs {
+  position: relative; display: grid; grid-template-columns: repeat(3, 1fr); width: min(520px, 100%); margin: 0 auto 34px; padding: 6px;
+  border-radius: 999px; background: rgba(8, 12, 32, .55); border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+}
+.tab-glider {
+  position: absolute; top: 6px; bottom: 6px; left: 0; width: 0; border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan)); box-shadow: 0 6px 22px rgba(59, 108, 255, .4);
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1), width .45s cubic-bezier(.2, .8, .2, 1);
+}
+.tab { all: unset; box-sizing: border-box; position: relative; z-index: 1; padding: 10px 14px; border-radius: 999px; text-align: center; white-space: nowrap; font: inherit; font-weight: 600; color: var(--muted); cursor: pointer; transition: color .25s, transform .15s; -webkit-tap-highlight-color: transparent; }
+.tab:hover { color: var(--text); }
+.tab:active { transform: scale(.95); }
+.tab.on { color: #fff; }
+.tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* Semua panel ditumpuk. Tinggi kotak mengikuti panel yang aktif (diatur script.js), jadi halaman tidak melompat */
+.tab-panels { position: relative; transition: height .45s cubic-bezier(.2, .8, .2, 1); }
+.tab-panel {
+  position: absolute; top: 0; left: 0; right: 0; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px);
+  transition: opacity .3s, transform .35s, visibility 0s .3s;
+}
+.tab-panel.on { position: relative; opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition: opacity .4s .12s, transform .45s .12s, visibility 0s; }
+.panel-hint { max-width: 56ch; margin: 0 auto; color: var(--muted); }
+.panel-hint + .grid { margin-top: 22px; }
+.tab-panel .card { text-align: left; }
+
+/* Tech Stack: kotak ikon */
+.tab-panel .stack-title { margin: 0 0 14px; }
+.tab-panel .stack-title.second { margin-top: 34px; }
+.tech-grid { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }   /* kotak yang tersisa di baris terakhir tetap rata tengah */
+.tech-grid li {
+  flex: 0 0 132px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px 16px; border-radius: 16px;
+  background: var(--glass); border: 1px solid var(--glass-line); transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.tech-grid li:hover { transform: translateY(-6px); border-color: var(--cyan); box-shadow: 0 12px 28px rgba(34, 199, 230, .2); }
+.tech-grid .logo-box { width: 54px; height: 54px; padding: 10px; border-radius: 14px; }
+.tech-grid .logo-box:empty::before { font-size: 1rem; }
+.tech-grid li:hover .logo-box { transform: rotate(-8deg) scale(1.08); }
+.tech-grid b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 600; font-size: .95rem; line-height: 1.2; }
+.tech-grid small { margin-top: -6px; color: var(--muted); font-size: .72rem; }
+
+
+/* ===== ABOUT: tinggal satu tumpukan foto, taruh di tengah ruang di bawah judul ===== */
+.about-left { justify-content: flex-start; }
+.stack-group { flex: 1; justify-content: center; }
+
+/* ===== LOGO INSTANSI di Education dan Experience ===== */
+.path li.has-logo { display: grid; grid-template-columns: 46px 1fr; column-gap: 14px; align-items: start; }
+.path li.has-logo > .org-logo { grid-column: 1; grid-row: 1 / span 3; }
+.path li.has-logo > :not(.org-logo) { grid-column: 2; min-width: 0; }
+.org-logo { display: grid; place-items: center; width: 46px; height: 46px; padding: 3px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 14px rgba(0, 0, 0, .35); }
+.org-logo img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 9px; }
+/* Logo cadangan "JW" (Solo Game Developer). Mau pakai logo sendiri? Ganti isi span-nya dengan <img src="assets/logos/namafile.png" alt=""> */
+/* Logo yang punya latar sendiri (Mie Rantau, merah): penuh sampai ke tepi, tanpa bingkai putih */
+.org-logo.bleed { padding: 0; background: transparent; }
+.org-logo.bleed img { object-fit: cover; border-radius: 12px; }
+.org-logo.mono { background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -.02em; }
+
+@media (max-width: 560px) {
+  .tab { padding: 10px 4px; font-size: .86rem; }
+  .tech-grid { gap: 10px; }
+  .tech-grid li { flex-basis: calc((100% - 20px) / 3); padding: 16px 6px 14px; }
+}
