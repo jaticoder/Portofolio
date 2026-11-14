@@ -82,21 +82,21 @@ const folders = [
         badge: "Beta",
         desc: "A short quiz for Informatics students who aren't sure which specialization group to pick. Twelve casual questions lead to a matching group, a specific role, career paths, and three first steps to try this week.",
         tools: ["HTML", "CSS", "JavaScript", "Google Apps Script"],
-        thumb: "assets/web/jadidev-start-thumb.jpg",   // gambar kartu di jendela folder
-        peek: "assets/web/jadidev-cover.jpg",          // gambar 4:5 yang mengintip dari sampul folder (kalau tidak diisi, memakai thumb)
+        thumb: "assets/Web/jadidev-start-thumb.jpg",   // gambar kartu di jendela folder
+        peek: "assets/Web/jadidev-cover.jpg",          // gambar 4:5 yang mengintip dari sampul folder (kalau tidak diisi, memakai thumb)
         ratio: "2 / 1",
         gallery: [
           {
             caption: "Start",
             desc: "The start screen introduces the quiz and the four specialization groups.",
-            thumb: "assets/web/jadidev-start-thumb.jpg",
-            src: "assets/web/jadidev-start.jpg"
+            thumb: "assets/Web/jadidev-start-thumb.jpg",
+            src: "assets/Web/jadidev-start.jpg"
           },
           {
             caption: "Result",
             desc: "The result shows the best-matching group, a specific role, possible careers, and a match score for every group.",
-            thumb: "assets/web/jadidev-result-thumb.jpg",
-            src: "assets/web/jadidev-result.jpg"
+            thumb: "assets/Web/jadidev-result-thumb.jpg",
+            src: "assets/Web/jadidev-result.jpg"
           }
         ],
         features: [
