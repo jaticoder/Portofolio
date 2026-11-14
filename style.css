@@ -880,3 +880,34 @@ html, body { overflow-x: clip; }
   .dt-tool { min-width: 0; font-size: .88rem; }
   .dt-tool .logo-box { flex: none; }
 }
+
+
+/* ===== Pill (Game Development, Unity, C#): tinggi sama, teks di tengah, turun ke baris baru kalau tidak muat ===== */
+.tags { flex-wrap: wrap; align-items: center; }
+.tags span { display: inline-flex; align-items: center; white-space: nowrap; line-height: 1.5; }
+
+
+/* ===== CHIP HERO: masuk meloncat dengan pantulan pegas, dan bereaksi saat disentuh ===== */
+/* (hanya mengubah nama, durasi, dan easing animasi. Jeda tiap chip di .fc-1 / .fc-2 / .fc-3 tetap dipakai) */
+@keyframes chipPop {
+  0%   { opacity: 0; scale: .55; translate: 0 22px; }
+  55%  { opacity: 1; scale: 1.12; translate: 0 -6px; }   /* melampaui sedikit, lalu mantul balik */
+  100% { opacity: 1; scale: 1; translate: 0 0; }
+}
+.float-chip {
+  animation-name: chipPop, chipFloat;
+  animation-duration: .9s, 5.5s;
+  animation-timing-function: cubic-bezier(.3, 1.5, .5, 1), ease-in-out;
+  animation-fill-mode: backwards, both;          /* chipPop tidak "mengunci" supaya scale hover bisa bekerja */
+  transition: scale .5s cubic-bezier(.34, 1.8, .5, 1), border-color .25s, box-shadow .3s;
+}
+.fc-ico { transition: transform .6s cubic-bezier(.34, 1.8, .5, 1); }
+.float-chip:active { scale: .94; }                 /* tertekan saat disentuh / diklik */
+@media (hover: hover) {
+  .float-chip:hover { scale: 1.09; border-color: rgba(34, 199, 230, .55); box-shadow: 0 12px 34px rgba(0, 0, 0, .4), 0 0 22px rgba(34, 199, 230, .22); }
+  .float-chip:hover .fc-ico { transform: rotate(-14deg) scale(1.1); }   /* ikon ikut goyang sedikit */
+}
+@media (prefers-reduced-motion: reduce) {
+  .float-chip { animation-name: none; transition: none; }
+  .fc-ico { transition: none; }
+}
