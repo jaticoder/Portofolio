@@ -434,8 +434,9 @@ addEventListener("scroll", () => {
 }, { passive: true });
 
 // Menu nav menyala sesuai section yang sedang dilihat
-const navLinks = [...document.querySelectorAll(".nav nav a")];
+const navLinks = [...document.querySelectorAll(".nav nav a, .rail-l a")];
 const spy = new IntersectionObserver((list) => list.forEach((e) => {
+  if (e.isIntersecting) document.documentElement.classList.toggle("past-hero", e.target.id !== "home");   // rail samping muncul setelah hero
   if (e.isIntersecting) navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
 }), { rootMargin: "-45% 0px -50% 0px" });
 document.querySelectorAll("main section[id]").forEach((s) => spy.observe(s));
@@ -986,4 +987,34 @@ if (fxWrap && fxCanvas && !matchMedia("(prefers-reduced-motion: reduce)").matche
     kick();
   };
   setTimeout(tryDemo, 2600);
+}
+
+// ===== SUASANA LATAR: cahaya bergeser saat scroll + partikel debu cahaya + garis progress di rail kiri =====
+{
+  const root = document.documentElement;
+  let pq = false;
+  const setP = () => { pq = false; const m = root.scrollHeight - innerHeight; root.style.setProperty("--p", m > 0 ? Math.min(1, scrollY / m).toFixed(4) : "0"); };
+  addEventListener("scroll", () => { if (!pq) { pq = true; requestAnimationFrame(setP); } }, { passive: true });
+  addEventListener("resize", setP);
+  setP();
+
+  const amb = document.getElementById("ambient");
+  if (amb && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const COUNT = matchMedia("(max-width: 760px)").matches ? 8 : 18;   // jumlah partikel. Mau lebih ramai atau sepi? Ubah angka ini
+    const cols = ["#22c7e6", "#3b6cff", "#8fa8ff", "#ffffff"];
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    for (let k = 0; k < COUNT; k++) {
+      const d = document.createElement("i");
+      d.className = "dust";
+      const left = Math.random() < 0.5;                          // muncul di sisi kiri atau kanan, bukan di tengah konten
+      d.style.setProperty("--x", (left ? rnd(1, 22) : rnd(78, 99)).toFixed(1) + "vw");
+      d.style.setProperty("--dx", rnd(-4, 4).toFixed(1) + "vw");
+      d.style.setProperty("--s", rnd(2, 4.5).toFixed(1) + "px");
+      d.style.setProperty("--t", rnd(16, 32).toFixed(1) + "s");
+      d.style.setProperty("--dl", (-rnd(0, 30)).toFixed(1) + "s");
+      d.style.setProperty("--o", rnd(.25, .65).toFixed(2));
+      d.style.setProperty("--c", cols[Math.floor(Math.random() * cols.length)]);
+      amb.appendChild(d);
+    }
+  }
 }

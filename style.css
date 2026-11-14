@@ -787,3 +787,47 @@ html, body { overflow-x: clip; }
       radial-gradient(closest-side at 50% 80%, rgba(91, 70, 224, .35), transparent 80%);
   }
 }
+
+/* ===== SUASANA LATAR: cahaya bergeser saat scroll + partikel debu ===== */
+.ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; width: 56vmax; height: 56vmax; border-radius: 50%; will-change: transform; }
+.o1 { left: -24vmax; top: 6vh; background: radial-gradient(circle, rgba(59, 108, 255, .30), transparent 68%); transform: translate3d(0, calc(var(--p, 0) * -42vh), 0); }
+.o2 { right: -26vmax; top: 30vh; background: radial-gradient(circle, rgba(34, 199, 230, .20), transparent 68%); transform: translate3d(0, calc(var(--p, 0) * 30vh), 0); }
+.dust { position: absolute; left: 0; bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); opacity: 0; animation: dust var(--t) linear var(--dl) infinite; }
+@keyframes dust {
+  0% { transform: translate3d(var(--x), 0, 0); opacity: 0; }
+  10%, 90% { opacity: var(--o); }
+  100% { transform: translate3d(calc(var(--x) + var(--dx)), -112vh, 0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .dust { display: none; } }
+
+/* ===== RAIL SAMPING: hanya di layar lebar, muncul setelah hero ===== */
+.rail { display: none; position: fixed; top: 50%; z-index: 5; flex-direction: column; align-items: center; gap: 26px; opacity: 0; visibility: hidden; transform: translateY(-50%); transition: opacity .5s, visibility .5s; }
+.past-hero .rail { opacity: 1; visibility: visible; }
+@media (min-width: 1500px) { .rail { display: flex; } }
+.rail-l { left: clamp(20px, 2.2vw, 44px); align-items: flex-start; }
+.rail-r { right: clamp(20px, 2.2vw, 44px); }
+.rail-l ul { position: relative; list-style: none; margin: 0; padding: 0 0 0 26px; display: grid; gap: 40px; }
+.rail-l ul::before, .rail-l ul::after { content: ""; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 2px; border-radius: 2px; background: var(--glass-line); }
+.rail-l ul::after { background: linear-gradient(var(--blue), var(--cyan)); transform-origin: top; transform: scaleY(var(--p, 0)); transition: transform .15s linear; }
+.rail-l a { position: relative; display: flex; flex-direction: column; color: var(--muted); text-decoration: none; transition: color .25s, transform .25s; }
+.rail-l a::before { content: ""; box-sizing: border-box; position: absolute; z-index: 1; left: -26px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: #0b1028; border: 2px solid var(--muted); transition: background .25s, border-color .25s, box-shadow .25s; }
+.rail-l a b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: .7rem; letter-spacing: .16em; opacity: .65; }
+.rail-l a span { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.15; }   /* font nama bagian. Mau ganti? Ubah font-family di sini */
+.rail-l a b, .rail-l a span { transition: transform .25s; }
+.rail-l a:hover, .rail-l a.active { color: var(--text); }
+.rail-l a.active b, .rail-l a.active span { transform: translateX(4px); }   /* hanya teks yang geser, titiknya tetap di garis */
+.rail-l a.active::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34, 199, 230, .18), 0 0 14px var(--cyan); }
+.rr-vert { margin: 0; writing-mode: vertical-rl; transform: rotate(180deg); font-size: .7rem; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); opacity: .8; }
+.rr-now { display: grid; gap: 2px; padding: 12px 16px; border-radius: 14px; background: rgba(59, 108, 255, .1); border: 1px solid var(--glass-line); color: var(--text); text-decoration: none; transition: transform .25s, border-color .25s; }
+.rr-now:hover { transform: translateY(-3px); border-color: rgba(34, 199, 230, .55); }
+.rr-now small { position: relative; padding-left: 14px; color: var(--muted); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; }
+.rr-now small::before { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: #3ddc84; animation: nowpulse 2s ease-out infinite; }
+@keyframes nowpulse { 0% { box-shadow: 0 0 0 0 rgba(61, 220, 132, .6); } 100% { box-shadow: 0 0 0 9px rgba(61, 220, 132, 0); } }
+.rr-now b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 1.05rem; }
+.rr-now em { font-style: normal; font-size: .78rem; color: var(--cyan); }
+.rr-social { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rr-social a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-line); transition: transform .2s, border-color .2s; }
+.rr-social a:hover { transform: translateX(-3px) scale(1.08); border-color: var(--cyan); }
+.rr-social img { width: 18px; height: 18px; object-fit: contain; opacity: .85; }
+@media (prefers-reduced-motion: reduce) { .rr-now small::before { animation: none; } }
