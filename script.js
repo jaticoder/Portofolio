@@ -5,6 +5,26 @@
 // Semua judul dan deskripsi di bawah ini draf dariku, silakan ganti dengan tulisanmu sendiri.
 const designTools = ["Picsart", "Canva", "Ibis Paint X"];
 
+// Logo untuk pill "Tools Used" di halaman detail. Kunci = nama persis seperti di field "tools" tiap karya.
+// src = file logo, fb = huruf cadangan kalau file-nya belum ada, c = warna huruf cadangan.
+const toolLogos = {
+  "Unity":        { src: "assets/tech/unity.png",         fb: "U",  c: "#222" },
+  "C#":           { src: "assets/tech/csharp.png",        fb: "C#", c: "#5b46e0" },
+  "C++":          { src: "assets/tech/cpp.png",           fb: "C+", c: "#00599c" },
+  "Kotlin":       { src: "assets/tech/kotlin.png",        fb: "Kt", c: "#7f52ff" },
+  "JavaScript":   { src: "assets/tech/javascript.png",    fb: "JS", c: "#b59800" },
+  "Node.js":      { src: "assets/tech/nodejs.png",        fb: "No", c: "#3c873a" },
+  "Android Studio": { src: "assets/tech/androidstudio.png", fb: "AS", c: "#3ddc84" },
+  "VS Code":      { src: "assets/tools/vscode.png",       fb: "VS", c: "#0a7acc" },
+  "Antigravity":  { src: "assets/tools/antigravity.png",  fb: "AG", c: "#3b82f6" },
+  "Canva":        { src: "assets/tools/canva.png",        fb: "Ca", c: "#00a3ad" },
+  "Picsart":      { src: "assets/tools/picsart.png",      fb: "Pa", c: "#b3139b" },
+  "PixelLab":     { src: "assets/tools/pixellab.png",     fb: "PL", c: "#e8590c" },
+  "Alight Motion": { src: "assets/tools/alightmotion.png", fb: "AM", c: "#0a84c6" },
+  "CapCut":       { src: "assets/tools/capcut.png",       fb: "CC", c: "#222222" },
+  "Ibis Paint X": { src: "assets/tools/ibispaint.png",    fb: "iP", c: "#e5383b" }
+};
+
 const folders = [
     {
     name: "Game",
@@ -23,21 +43,28 @@ const folders = [
           {
             caption: "Gameplay",
             desc: "Weaving through highway traffic on a motorbike. Dodge the trucks, collect coins, and keep your score multiplier going.",
-            thumb: "assets/game/gameplay-thumb.png",
+            thumb: "assets/game/gameplay-thumb.jpg",
             src: "assets/game/gameplay.gif"
           },
           {
             caption: "Main Menu",
             desc: "The main menu, with buttons for playing, the shop, credits, and exiting.",
-            thumb: "assets/game/mainmenu-thumb.png",
-            src: "assets/game/mainmenu.png"
+            thumb: "assets/game/mainmenu-thumb.jpg",
+            src: "assets/game/mainmenu.jpg"
           },
           {
             caption: "Garage",
             desc: "The garage, where you browse locked motorbikes and unlock new ones with the coins you've earned.",
-            thumb: "assets/game/shopmenu-thumb.png",
-            src: "assets/game/shopmenu.png"
+            thumb: "assets/game/garage-thumb.jpg",
+            src: "assets/game/garage.jpg"
           }
+        ],
+        features: [
+          "Endless dodging down a multi-lane highway",
+          "Score multiplier that climbs the longer you survive",
+          "Collect Rp coins along the road",
+          "Three helmets as lives, with a local highscore",
+          "Garage shop to unlock new motorbikes and maps with your coins"
         ],
         itch: "",
         github: ""
@@ -52,48 +79,48 @@ const folders = [
         badge: "Poster",
         desc: "Thuram (Inter Milan) poster on a lavender background with a big dark-blue circle. A brush-style title across the top, with touches of the French flag colors in the corners.",
         tools: designTools,
-        thumb: "assets/desain/thuram-thumb.png",
-        image: "assets/desain/thuram.png"
+        thumb: "assets/desain/thuram-thumb.jpg",
+        image: "assets/desain/thuram.jpg"
       },
       {
         title: "Neymar",
         badge: "Poster",
         desc: "Neymar poster in a Barcelona kit. A cream background with a halftone dot texture, slanted name letters striped in blue and red, and several photo cutouts layered together. The tagline reads 'The Last Jogo Bonito'.",
         tools: designTools,
-        thumb: "assets/desain/neymar-thumb.png",
-        image: "assets/desain/neymar.png"
+        thumb: "assets/desain/neymar-thumb.jpg",
+        image: "assets/desain/neymar.jpg"
       },
       {
         title: "Rashford",
         badge: "Poster",
         desc: "Rashford poster in a Barcelona jersey. A deep dark-blue mood with a giant gradient name behind three photo cutouts, plus a glow effect along the edges.",
         tools: designTools,
-        thumb: "assets/desain/rashford-thumb.png",
-        image: "assets/desain/rashford.png"
+        thumb: "assets/desain/rashford-thumb.jpg",
+        image: "assets/desain/rashford.jpg"
       },
       {
         title: "Cristiano Ronaldo",
         badge: "Poster",
         desc: "'The GOAT' poster for Cristiano Ronaldo at Al Nassr. Black-and-white photos with thick white outlines, paired with yellow kits that keep their color, over a stadium background and a large club logo.",
         tools: designTools,
-        thumb: "assets/desain/ronaldo-thumb.png",
-        image: "assets/desain/ronaldo.png"
+        thumb: "assets/desain/ronaldo-thumb.jpg",
+        image: "assets/desain/ronaldo.jpg"
       },
       {
         title: "Lionel Messi",
         badge: "Poster",
         desc: "Messi poster in Inter Miami pink. A big close-up face meets a small figure running to celebrate a goal, complete with curved text reading 'The Greatest of All Time', the number 10, and a signature.",
         tools: designTools,
-        thumb: "assets/desain/messi-thumb.png",
-        image: "assets/desain/messi.png"
+        thumb: "assets/desain/messi-thumb.jpg",
+        image: "assets/desain/messi.jpg"
       },
       {
         title: "Bruno Fernandes",
         badge: "Poster",
         desc: "Bruno Fernandes poster (Manchester United, number 8). Big 'FERNANDES' typography sits behind the player, with a faint giant number 8 and a brush-style handwritten 'Bruno' over a red grainy background.",
         tools: designTools,
-        thumb: "assets/desain/bruno-thumb.png",
-        image: "assets/desain/bruno.png"
+        thumb: "assets/desain/bruno-thumb.jpg",
+        image: "assets/desain/bruno.jpg"
       }
     ]
   },
@@ -130,7 +157,12 @@ if (folderRow && explorer && viewer) {
   const vwLinks = document.getElementById("vw-links");
   const vwPrev = document.getElementById("vw-prev");
   const vwNext = document.getElementById("vw-next");
-  const vwClose = document.getElementById("vw-close");
+  const vwBack = document.getElementById("vw-back");
+  const vwStats = document.getElementById("vw-stats");
+  const vwFeatWrap = document.getElementById("vw-feat-wrap");
+  const vwFeatTitle = document.getElementById("vw-feat-title");
+  const vwFeat = document.getElementById("vw-feat");
+  const exWin = explorer.querySelector(".win");
   const vwCap = document.getElementById("vw-cap");
   const vwCount = document.getElementById("vw-count");
   const vwGalWrap = document.getElementById("vw-gal-wrap");
@@ -138,7 +170,7 @@ if (folderRow && explorer && viewer) {
   const vwShotDesc = document.getElementById("vw-shotdesc");
   let cur = 0, curItem = 0, shot = 0, opener = null, fileOpener = null;
 
-  const lockScroll = () => document.documentElement.classList.toggle("modal-open", !explorer.hidden || !viewer.hidden);
+  const lockScroll = () => document.documentElement.classList.toggle("modal-open", !explorer.hidden);   // halaman detail sekarang ada DI DALAM jendela folder, jadi cukup cek jendelanya
   const show = (box) => { box.hidden = false; lockScroll(); requestAnimationFrame(() => box.classList.add("open")); };
   const hide = (box, after) => {
     box.classList.remove("open");
@@ -189,11 +221,15 @@ if (folderRow && explorer && viewer) {
 
   const openExplorer = (i, from) => {
     opener = from;
+    viewer.hidden = true; viewer.classList.remove("open"); exWin.classList.remove("detail");
     showFolder(i);
     show(explorer);
     setTimeout(() => exClose.focus({ preventScroll: true }), 60);
   };
-  const closeExplorer = () => hide(explorer, () => { if (opener) opener.focus({ preventScroll: true }); });
+  const closeExplorer = () => hide(explorer, () => {
+    viewer.hidden = true; viewer.classList.remove("open"); exWin.classList.remove("detail");   // reset halaman detail kalau jendela ditutup saat detail terbuka
+    if (opener) opener.focus({ preventScroll: true });
+  });
   exClose.addEventListener("click", closeExplorer);
   explorer.addEventListener("click", (e) => { if (e.target === explorer) closeExplorer(); });
 
@@ -228,15 +264,39 @@ if (folderRow && explorer && viewer) {
     vwTitle.textContent = it.title;
     vwDesc.textContent = it.desc || "";
     vwTools.textContent = "";
-    (it.tools || []).forEach((t) => vwTools.appendChild(el("span", "award-badge", t)));
+    (it.tools || []).forEach((name) => {            // logo + nama tool (huruf cadangan kalau file logo belum ada)
+      const t = toolLogos[name] || {};
+      const chip = el("span", "dt-tool");
+      const box = el("span", "logo-box");
+      box.dataset.fallback = t.fb || name.slice(0, 2);
+      box.style.setProperty("--c", t.c || "#222");
+      if (t.src) { const im = new Image(); im.alt = ""; im.src = t.src; im.onerror = () => im.remove(); box.appendChild(im); }
+      chip.append(box, el("span", null, name));
+      vwTools.appendChild(chip);
+    });
     vwToolsWrap.hidden = !(it.tools && it.tools.length);
-    vwLinks.textContent = "";
-    [[it.itch, "btn btn-solid", "Play on itch.io"], [it.github, "btn btn-ghost", "Source code"]].forEach(([href, cls, label]) => {
-      if (!href) return;
+    vwLinks.textContent = "";                      // tombol link: kalau field-nya ada tapi masih kosong, tampil redup "Coming soon"
+    [["itch", "btn btn-solid", "Play on itch.io"], ["github", "btn btn-ghost", "Source code"]].forEach(([key, cls, label]) => {
+      if (!(key in it)) return;
+      if (!it[key]) { vwLinks.appendChild(el("span", "dt-nolink", label + " · soon")); return; }
       const a = el("a", cls, label);
-      a.href = href; a.target = "_blank"; a.rel = "noopener";
+      a.href = it[key]; a.target = "_blank"; a.rel = "noopener";
       vwLinks.appendChild(a);
     });
+    const feats = it.features || [];               // kartu Key Features (isi lewat field "features": [...] di data karya)
+    vwFeat.textContent = "";
+    feats.forEach((t) => vwFeat.appendChild(el("li", null, t)));
+    vwFeatTitle.textContent = it.featuresTitle || "Key Features";
+    vwFeatWrap.hidden = !feats.length;
+    vwStats.textContent = "";                      // kotak statistik kecil
+    [[(it.tools || []).length, "Tools Used"], [shots ? shots.length : 1, "Images"], [feats.length, "Key Features"]].forEach(([num, label]) => {
+      if (!num) return;
+      const box = el("div", "dt-stat");
+      box.append(el("b", null, String(num)), el("span", null, label));
+      vwStats.appendChild(box);
+    });
+    exPath.textContent = `${folders[cur].name} \u203A ${it.title}`;
+    exStatus.textContent = `${n + 1} of ${folders[cur].items.length} items`;
     const gallery = !!(shots && shots.length > 1);
     vwStrip.textContent = "";                      // deretan gambar kecil di bawah deskripsi
     vwGalWrap.hidden = !gallery;
@@ -252,7 +312,13 @@ if (folderRow && explorer && viewer) {
     });
     renderShot();
     vwPrev.hidden = vwNext.hidden = gallery ? false : folders[cur].items.length < 2;
-    if (viewer.hidden) { show(viewer); setTimeout(() => vwClose.focus({ preventScroll: true }), 60); }
+    if (viewer.hidden) {                           // halaman detail muncul DI DALAM jendela folder, jendelanya melebar
+      viewer.hidden = false; exWin.classList.add("detail");
+      requestAnimationFrame(() => viewer.classList.add("open"));
+      exBody.parentElement.scrollTop = 0;
+      setTimeout(() => vwBack.focus({ preventScroll: true }), 60);
+    }
+    viewer.scrollTop = 0;
   };
 
   const step = (d) => {                            // panah: geser gambar di galeri, atau pindah karya kalau tidak ada galeri
@@ -271,11 +337,15 @@ if (folderRow && explorer && viewer) {
     if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
   });
   vwBox.addEventListener("pointercancel", () => { swipeX = null; });
-  const closeViewer = () => hide(viewer, () => { if (fileOpener && fileOpener.isConnected) fileOpener.focus({ preventScroll: true }); });
+  const closeViewer = () => {                      // tombol Back: kembali ke daftar karya
+    viewer.classList.remove("open"); viewer.hidden = true; exWin.classList.remove("detail");
+    exPath.textContent = folders[cur].name;
+    exStatus.textContent = countText(folders[cur].items.length);
+    if (fileOpener && fileOpener.isConnected) fileOpener.focus({ preventScroll: true });
+  };
   vwPrev.addEventListener("click", () => step(-1));
   vwNext.addEventListener("click", () => step(1));
-  vwClose.addEventListener("click", closeViewer);
-  viewer.addEventListener("click", (e) => { if (e.target === viewer) closeViewer(); });
+  vwBack.addEventListener("click", closeViewer);
 
   addEventListener("keydown", (e) => {
     if (!viewer.hidden) {

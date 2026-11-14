@@ -287,36 +287,38 @@
       <div class="win-addr"><div class="addr-box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>Project</span><i>&rsaquo;</i><b id="ex-path"></b></div></div>
       <nav class="win-side" id="ex-side" aria-label="Folder list"></nav>
       <div class="win-body" id="ex-body"></div>
+      <section class="win-detail" id="viewer" aria-labelledby="vw-title" hidden>
+        <div class="dt-wrap">
+          <div class="dt-left">
+            <button class="dt-back" id="vw-back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</button>
+            <span class="award-badge" id="vw-badge"></span>
+            <h3 id="vw-title"></h3>
+            <p id="vw-desc"></p>
+            <div class="dt-stats" id="vw-stats"></div>
+            <div class="vw-links" id="vw-links"></div>
+            <div id="vw-tools-wrap"><p class="vw-label">Tools Used</p><div class="vw-pills" id="vw-tools"></div></div>
+          </div>
+          <div class="dt-right">
+            <div class="vw-img">
+              <button class="vw-nav vw-prev" id="vw-prev" type="button" aria-label="Previous">&lsaquo;</button>
+              <img id="vw-img" alt="" draggable="false">
+              <button class="vw-nav vw-next" id="vw-next" type="button" aria-label="Next">&rsaquo;</button>
+              <div class="vw-meta"><span id="vw-cap"></span><span id="vw-count"></span></div>
+            </div>
+            <div id="vw-gal-wrap" hidden>
+              <p class="vw-label">Gallery</p>
+              <div class="vw-strip" id="vw-strip"></div>
+              <p class="vw-shotdesc" id="vw-shotdesc"></p>
+            </div>
+            <div class="dt-card" id="vw-feat-wrap" hidden><p class="vw-label" id="vw-feat-title">Key Features</p><ul id="vw-feat"></ul></div>
+          </div>
+        </div>
+      </section>
       <div class="win-status" id="ex-status"></div>
     </div>
   </div>
 
-  <!-- POPUP DETAIL KARYA: gambar besar, judul, deskripsi, dan pill tools -->
-  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vw-title" hidden>
-    <div class="vw-card">
-      <button class="lb-close vw-close" id="vw-close" type="button" aria-label="Close">&times;</button>
-      <div class="vw-img">
-        <button class="vw-nav vw-prev" id="vw-prev" type="button" aria-label="Previous">&lsaquo;</button>
-        <img id="vw-img" alt="" draggable="false">
-        <button class="vw-nav vw-next" id="vw-next" type="button" aria-label="Next">&rsaquo;</button>
-        <div class="vw-meta"><span id="vw-cap"></span><span id="vw-count"></span></div>
-      </div>
-      <div class="vw-info">
-        <span class="award-badge" id="vw-badge"></span>
-        <h3 id="vw-title"></h3>
-        <p id="vw-desc"></p>
-        <div id="vw-gal-wrap" hidden>
-          <p class="vw-label">Gallery</p>
-          <div class="vw-strip" id="vw-strip"></div>
-          <p class="vw-shotdesc" id="vw-shotdesc"></p>
-        </div>
-        <div id="vw-tools-wrap"><p class="vw-label">Tools</p><div class="vw-pills" id="vw-tools"></div></div>
-        <div class="vw-links" id="vw-links"></div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">Made by Jati Wisnu</footer>
+  <footer class="footer">© 2026 Jati Wisnu</footer>
   <script src="script.js"></script>
 </body>
 </html>
