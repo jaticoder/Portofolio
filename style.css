@@ -819,15 +819,64 @@ html, body { overflow-x: clip; }
 .rail-l a.active b, .rail-l a.active span { transform: translateX(4px); }   /* hanya teks yang geser, titiknya tetap di garis */
 .rail-l a.active::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34, 199, 230, .18), 0 0 14px var(--cyan); }
 .rr-vert { margin: 0; writing-mode: vertical-rl; transform: rotate(180deg); font-size: .7rem; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); opacity: .8; }
-.rr-now { display: grid; gap: 2px; padding: 12px 16px; border-radius: 14px; background: rgba(59, 108, 255, .1); border: 1px solid var(--glass-line); color: var(--text); text-decoration: none; transition: transform .25s, border-color .25s; }
-.rr-now:hover { transform: translateY(-3px); border-color: rgba(34, 199, 230, .55); }
-.rr-now small { position: relative; padding-left: 14px; color: var(--muted); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; }
-.rr-now small::before { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: #3ddc84; animation: nowpulse 2s ease-out infinite; }
-@keyframes nowpulse { 0% { box-shadow: 0 0 0 0 rgba(61, 220, 132, .6); } 100% { box-shadow: 0 0 0 9px rgba(61, 220, 132, 0); } }
-.rr-now b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 1.05rem; }
-.rr-now em { font-style: normal; font-size: .78rem; color: var(--cyan); }
+.rr-now { position: relative; display: block; width: 44px; height: 44px; border-radius: 50%; color: var(--text); text-decoration: none; }
+.rr-orb { position: relative; z-index: 2; display: block; width: 44px; height: 44px; border-radius: 50%; transition: transform .25s; }
+.rr-now:hover .rr-orb, .rr-now:focus-visible .rr-orb { transform: scale(1.07); }
+.rr-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); fill: none; }
+.rr-ring circle { stroke-width: 2.5; }
+.rr-ring-bg { stroke: rgba(255, 255, 255, .12); }
+.rr-ring-fg { stroke: url(#rrGrad); stroke-linecap: round; stroke-dasharray: 0 100; transition: stroke-dasharray 1.4s cubic-bezier(.2, .8, .2, 1) .5s; }
+.past-hero .rr-ring-fg { stroke-dasharray: var(--p) 100; }   /* cincin terisi sekali saat rail muncul. Angka progress: style="--p: 60" di index.html */
+.rr-thumb { position: absolute; inset: 5px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, rgba(59, 108, 255, .45), rgba(91, 70, 224, .45)); }   /* kalau gambar gagal dimuat, yang terlihat gradasi ini */
+.rr-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rr-panel { position: absolute; z-index: 1; top: 50%; right: -9px; display: grid; gap: 5px; width: 252px; padding: 9px 66px 9px 24px; transform: translateY(-50%); border-radius: 999px; background: rgba(12, 20, 56, .82); border: 1px solid var(--glass-line); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); clip-path: inset(0 0 0 100% round 999px); opacity: 0; transition: clip-path .45s cubic-bezier(.2, .8, .2, 1), opacity .25s; }
+.rr-now:hover .rr-panel, .rr-now:focus-visible .rr-panel { clip-path: inset(0 0 0 0 round 999px); opacity: 1; }   /* terbuka ke kiri saat di-hover */
+.rr-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.rr-top b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 1rem; font-weight: 700; line-height: 1.1; }
+.rr-top i { font-style: normal; font-size: .76rem; font-weight: 600; color: var(--cyan); font-variant-numeric: tabular-nums; counter-reset: p var(--p); }
+.rr-top i::before { content: counter(p) "%"; }
+.rr-bar { display: block; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.rr-bar span { display: block; height: 100%; width: calc(var(--p) * 1%); border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+.rr-panel em { font-style: normal; font-size: .72rem; line-height: 1.2; color: var(--muted); white-space: nowrap; }
+@keyframes rrintro { 0%, 100% { clip-path: inset(0 0 0 100% round 999px); opacity: 0; } 14%, 80% { clip-path: inset(0 0 0 0 round 999px); opacity: 1; } }
+.past-hero .rr-panel { animation: rrintro 3.6s ease 1.4s 1; }   /* membuka sebentar sebagai perkenalan, lalu menutup sendiri */
+@media (prefers-reduced-motion: reduce) { .rr-panel, .rr-orb, .rr-ring-fg { transition: none; } .past-hero .rr-panel { animation: none; } }
 .rr-social { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .rr-social a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-line); transition: transform .2s, border-color .2s; }
 .rr-social a:hover { transform: translateX(-3px) scale(1.08); border-color: var(--cyan); }
 .rr-social img { width: 18px; height: 18px; object-fit: contain; opacity: .85; }
-@media (prefers-reduced-motion: reduce) { .rr-now small::before { animation: none; } }
+
+/* ===== HP: glow biru di belakang foto dibuat setenang versi desktop ===== */
+@media (max-width: 800px) {
+  .portrait-stage::before {
+    width: 200%; height: 135%;
+    /* Angka .30 = kuat cahaya di tengah (desktop memakai .38 tapi area lebih lebar). Turunkan kalau masih terlalu terang */
+    background: radial-gradient(closest-side, rgba(59, 108, 255, .30), rgba(59, 108, 255, .12) 50%, rgba(34, 199, 230, .04) 75%, transparent);
+  }
+}
+
+/* ===== HP: halaman detail karya dirapikan ===== */
+@media (max-width: 760px) {
+  /* tab folder + alamat + tombol Back + status = empat lapis yang berulang. Di halaman detail cukup tab, X, dan Back */
+  .win.detail .win-addr, .win.detail .win-status { display: none; }
+  .win-detail { padding: 16px 16px 32px; }
+  .dt-wrap { gap: 22px; }
+  .dt-left, .dt-right { gap: 12px; }
+  .dt-left h3 { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+
+  /* kotak angka: sama lebar, angka di atas label (dua atau tiga kotak, tetap rata) */
+  .dt-stats { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
+  .dt-stat { flex-direction: column; justify-content: center; gap: 4px; padding: 12px 6px; text-align: center; }
+  .dt-stat b { font-size: 1.45rem; }
+  .dt-stat span { font-size: .74rem; line-height: 1.2; }
+
+  /* tombol "soon" / link: berdampingan, sama lebar */
+  .vw-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 4px; }
+  .vw-links > * { justify-content: center; text-align: center; }
+  .dt-nolink { padding: 10px 8px; font-size: .8rem; line-height: 1.25; }
+
+  /* pill tools: dua kolom rata, bukan berderet tidak sama panjang */
+  .dt-left .vw-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .dt-tool { min-width: 0; font-size: .88rem; }
+  .dt-tool .logo-box { flex: none; }
+}

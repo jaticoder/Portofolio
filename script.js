@@ -55,8 +55,8 @@ const folders = [
           {
             caption: "Garage",
             desc: "The garage, where you browse locked motorbikes and unlock new ones with the coins you've earned.",
-            thumb: "assets/game/garage-thumb.jpg",
-            src: "assets/game/garage.jpg"
+            thumb: "assets/game/shopmenu-thumb.jpg",
+            src: "assets/game/shopmenu.jpg"
           }
         ],
         features: [
