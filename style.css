@@ -911,3 +911,15 @@ html, body { overflow-x: clip; }
   .float-chip { animation-name: none; transition: none; }
   .fc-ico { transition: none; }
 }
+
+/* ===== Tech Stack: kelompok berdampingan, turun ke baris baru hanya kalau tidak muat ===== */
+/* Area kelompok dibuat lebih lebar dari kolom teks (maks 1120px) supaya dua-tiga kelompok muat sebaris. Ubah 1120px kalau mau lebih sempit atau lebar */
+.tech-wrap { position: relative; left: 50%; transform: translateX(-50%); width: min(1120px, calc(100vw - 48px)); display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 34px 56px; }   /* jarak: atas-bawah 34px, samping 56px */
+.tech-block { max-width: 100%; }
+.tab-panel .tech-block .stack-title { margin: 0 0 14px; }
+
+
+/* ===== Barisan folder: garis geser kanan-kiri hanya muncul kalau foldernya lebih dari tiga (di layar lebar) ===== */
+@media (min-width: 561px) {
+  .folders:not(.many) { overflow-x: hidden; scrollbar-width: none; }
+}

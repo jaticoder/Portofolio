@@ -14,6 +14,9 @@ const toolLogos = {
   "Kotlin":       { src: "assets/tech/kotlin.png",        fb: "Kt", c: "#7f52ff" },
   "JavaScript":   { src: "assets/tech/javascript.png",    fb: "JS", c: "#b59800" },
   "Node.js":      { src: "assets/tech/nodejs.png",        fb: "No", c: "#3c873a" },
+  "HTML":         { src: "assets/tech/html.png",          fb: "HT", c: "#e44d26" },
+  "CSS":          { src: "assets/tech/css.png",           fb: "CS", c: "#2965f1" },
+  "Google Apps Script": { src: "assets/tech/appsscript.png", fb: "GS", c: "#4285f4" },
   "Android Studio": { src: "assets/tech/androidstudio.png", fb: "AS", c: "#3ddc84" },
   "VS Code":      { src: "assets/tools/vscode.png",       fb: "VS", c: "#0a7acc" },
   "Antigravity":  { src: "assets/tools/antigravity.png",  fb: "AG", c: "#3b82f6" },
@@ -72,6 +75,43 @@ const folders = [
     ]
   },
   {
+    name: "Web",
+    items: [
+      {
+        title: "Jadi Dev",
+        badge: "Beta",
+        desc: "A short quiz for Informatics students who aren't sure which specialization group to pick. Twelve casual questions lead to a matching group, a specific role, career paths, and three first steps to try this week.",
+        tools: ["HTML", "CSS", "JavaScript", "Google Apps Script"],
+        thumb: "assets/web/jadidev-start-thumb.jpg",   // gambar kartu di jendela folder
+        peek: "assets/web/jadidev-cover.jpg",          // gambar 4:5 yang mengintip dari sampul folder (kalau tidak diisi, memakai thumb)
+        ratio: "2 / 1",
+        gallery: [
+          {
+            caption: "Start",
+            desc: "The start screen introduces the quiz and the four specialization groups.",
+            thumb: "assets/web/jadidev-start-thumb.jpg",
+            src: "assets/web/jadidev-start.jpg"
+          },
+          {
+            caption: "Result",
+            desc: "The result shows the best-matching group, a specific role, possible careers, and a match score for every group.",
+            thumb: "assets/web/jadidev-result-thumb.jpg",
+            src: "assets/web/jadidev-result.jpg"
+          }
+        ],
+        features: [
+          "12 casual questions with no right or wrong answers",
+          "Matches you to one of four specialization groups",
+          "Narrows it down to a specific role out of 16",
+          "Career paths and three first steps to try this week",
+          "Suggestion form and public reviews, stored in Google Sheets"
+        ],
+        live: "https://jaticoder.github.io/Jadi-Dev/",
+        github: "https://github.com/jaticoder/Jadi-Dev"
+      }
+    ]
+  },
+  {
     name: "Graphic Design",
     items: [
       {
@@ -124,7 +164,8 @@ const folders = [
       }
     ]
   },
-  { name: "Coming Soon", soon: true, items: [] }
+  // Folder "Coming Soon" dimatikan sementara supaya barisnya tetap simetris. Mau dinyalakan lagi? Hapus dua garis miring di depan baris di bawah ini.
+  // { name: "Coming Soon", soon: true, items: [] }
 ];
 
 const el = (tag, cls, text) => {
@@ -276,7 +317,7 @@ if (folderRow && explorer && viewer) {
     });
     vwToolsWrap.hidden = !(it.tools && it.tools.length);
     vwLinks.textContent = "";                      // tombol link: kalau field-nya ada tapi masih kosong, tampil redup "Coming soon"
-    [["itch", "btn btn-solid", "Play on itch.io"], ["github", "btn btn-ghost", "Source code"]].forEach(([key, cls, label]) => {
+    [["live", "btn btn-solid", "Open live site"], ["itch", "btn btn-solid", "Play on itch.io"], ["github", "btn btn-ghost", "Source code"]].forEach(([key, cls, label]) => {
       if (!(key in it)) return;
       if (!it[key]) { vwLinks.appendChild(el("span", "dt-nolink", label + " · soon")); return; }
       const a = el("a", cls, label);
@@ -356,6 +397,7 @@ if (folderRow && explorer && viewer) {
   });
 
   // ----- baris folder di halaman -----
+  folderRow.classList.toggle("many", folders.length > 3);   // garis geser kanan-kiri hanya aktif kalau foldernya lebih dari tiga
   const peekAuto = !matchMedia("(prefers-reduced-motion: reduce)").matches;
   folders.forEach((f, idx) => {
     const btn = el("button", "folder reveal" + (f.soon ? " soon" : ""));
@@ -374,7 +416,8 @@ if (folderRow && explorer && viewer) {
       const card = el("span", "peek-card");
       const im = new Image();
       im.alt = ""; im.decoding = "async";
-      im.src = f.items[k < 3 ? k : n - 1].thumb;    // kartu ke-4 menunggu dengan poster terakhir
+      const pk = f.items[k < 3 ? k : n - 1];
+      im.src = pk.peek || pk.thumb;    // kartu ke-4 menunggu dengan poster terakhir
       if (roll) card.dataset.slot = k < 3 ? k : 4;  // slot: 0 kiri, 1 tengah, 2 kanan, 3 menyelinap ke belakang, 4 menunggu di kiri
       card.appendChild(im);
       peek.appendChild(card);
