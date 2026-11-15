@@ -484,9 +484,14 @@ button.btn { font: inherit; font-weight: 600; cursor: pointer; }
 
 /* ===== JENDELA FOLDER ===== */
 html.modal-open { overflow: hidden; }
-.explorer { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 3vw; background: rgba(3, 5, 14, .72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s; }
+/* Saat jendela folder terbuka, animasi latar dijeda supaya transisi buka/tutup mulus */
+html.modal-open .dust, html.modal-open .float-chip, html.modal-open .now i, html.modal-open .status-badge i { animation-play-state: paused; }
+html.modal-open .grid-glow { opacity: 0; }
+/* Blur di overlay dihapus (mahal di GPU saat di-fade), diganti latar lebih gelap */
+.explorer { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 3vw; background: rgba(3, 5, 14, .86); opacity: 0; transition: opacity .3s; }
 .explorer[hidden] { display: none; }
 .explorer.open { opacity: 1; }
+.explorer .win { will-change: transform; }
 .win {
   width: min(1000px, 100%); height: min(640px, 88vh); display: grid; grid-template-columns: 200px 1fr; grid-template-rows: auto auto 1fr auto;
   overflow: hidden; border-radius: 12px; background: rgba(11, 16, 40, .97); border: 1px solid rgba(255, 255, 255, .14);

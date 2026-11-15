@@ -108,6 +108,39 @@ const folders = [
         ],
         live: "https://jaticoder.github.io/Jadi-Dev/",
         github: "https://github.com/jaticoder/Jadi-Dev"
+      },
+      {
+        title: "Compile & Conquer",
+        badge: "In development",
+        desc: "A 2D pixel-art browser game for learning C++. Every level has one boss: write the program correctly and the boss goes down. Made for fellow Informatics freshmen who are just starting to code.",
+        tools: ["HTML", "CSS", "JavaScript"],
+        thumb: "assets/Web/compile-menu-thumb.jpg",   // gambar kartu di jendela folder
+        peek: "assets/Web/compile-cover.jpg",          // gambar 4:5 yang mengintip dari sampul folder (kalau tidak diisi, memakai thumb)
+        ratio: "16 / 9",
+        gallery: [
+          {
+            caption: "Main Menu",
+            desc: "The start screen: the hero faces the first boss, the Print Slime, with buttons to continue, open settings, or go back to the portfolio.",
+            thumb: "assets/Web/compile-menu-thumb.jpg",
+            src: "assets/Web/compile-menu.jpg"
+          },
+          {
+            caption: "Level 1",
+            desc: "Level 1 teaches cout. The task and the expected output sit on the left, and the code editor with faded guide text sits on the right.",
+            thumb: "assets/Web/compile-level-thumb.jpg",
+            src: "assets/Web/compile-level.jpg"
+          }
+        ],
+        features: [
+          "One boss per concept, from cout all the way to loops",
+          "Real C++ code, compiled online and checked against the expected output",
+          "Grey ghost text that guides you, and you still type everything yourself",
+          "Friendly error messages instead of raw compiler errors",
+          "No lives, no timer, so you can retry as many times as you need",
+          "Symbol buttons for typing code comfortably on a phone"
+        ],
+        live: "https://jaticoder.github.io/Compile-and-Conquer/",
+        github: "https://github.com/jaticoder/Compile-and-Conquer"
       }
     ]
   },
